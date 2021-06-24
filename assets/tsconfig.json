@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "jsx": "react",
+      "lib": [
+        "dom",
+        "ES2016",
+        "ES2017",
+        "ES2018",
+        "ES2019",
+        "ES2020"
+      ],
+      "module": "esnext",
+      "target": "es6",
+      "allowJs": true,
+      "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": false,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "noEmit": false,
+      "isolatedModules": true,
+      "baseUrl": "src",
+      "sourceMap": false
+    },
+    // "include": [
+    //   "src"
+    // ]
+  }
+  

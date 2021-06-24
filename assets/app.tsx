@@ -6,15 +6,15 @@
  */
 import React from "react";
 import ReactDOM from "react-dom";
-import { Comments } from "./components/Comments"
+import { AppContainer } from "./AppContainer";
+// start the Stimulus application
+import './bootstrap';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-// start the Stimulus application
-import './bootstrap';
 
 const App = () => {
-    return <Comments />;
+    return <AppContainer />;
 }
 
 ReactDOM.render(<App />, document.getElementById("container"));

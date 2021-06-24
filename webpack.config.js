@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const dotenv = require('dotenv');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -20,7 +21,13 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/app.js')
+    .addEntry('app', './assets/app.tsx')
+    .enableTypeScriptLoader()
+
+      // optionally enable forked type script for faster builds
+      // https://www.npmjs.com/package/fork-ts-checker-webpack-plugin
+      // requires that you have a tsconfig.json file that is setup correctly.
+    // .enableForkedTypeScriptTypesChecking()
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -70,6 +77,17 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+
+    .configureDefinePlugin(options => {
+        const env = dotenv.config();
+        console.log(env)
+
+        if (env.error) {
+            throw env.error;
+        }
+
+        options['process.env'].APP_API_ENDPOINT = JSON.stringify(env.parsed.APP_API_ENDPOINT);
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
