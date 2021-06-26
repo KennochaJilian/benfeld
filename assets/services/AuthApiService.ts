@@ -6,5 +6,9 @@ export class AuthApiService{
         const url = `login_check`
         return axios.post(url, values).then(r => r.data)
     }
+    me(){
+        const url = `users/me`
+        return axios.get(url).then(r => r.data)        
+    }
 
 }

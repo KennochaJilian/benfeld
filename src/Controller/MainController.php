@@ -8,10 +8,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    /**
-     * @Route("/{reactRouting}", name="main")
+     /**
+     * @Route("/", name="main")
      */
     public function index(): Response
+    {
+        return $this->render('base.html.twig');
+    }
+
+    /**
+     * @Route("/{reactRouting}", name="reactRouting")
+     */
+    public function reactRouting(): Response
     {
         return $this->render('base.html.twig');
     }

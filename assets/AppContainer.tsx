@@ -4,11 +4,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Dashboard } from "./components/Dashboard";
 import { Login } from "./components/Login";
 import "./css/app.less";
+import { IUser } from "./interfaces/IUser";
+import { AuthApiService } from "./services/AuthApiService";
 
 const AppContext: React.Context<any> = React.createContext(null);
 
 export const AppContainer = () => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState<IUser>();
+    const authService = new AuthApiService();
 
 
 
@@ -18,6 +21,13 @@ export const AppContainer = () => {
 
     useEffect(() => {
         setupAxios()
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+            authService.me().then(response => {
+                setUser(response)
+            })
+        }
     }, [])
 
     return (
@@ -37,4 +47,4 @@ export const AppContainer = () => {
     )
 };
 
-export { AppContext }
+export { AppContext };

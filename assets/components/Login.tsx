@@ -1,15 +1,20 @@
 import { Form, Input } from 'antd';
+import axios from 'axios';
 import React, { useContext } from 'react';
 import { AppContext } from "../AppContainer";
 import { AuthApiService } from '../services/AuthApiService';
 
 export const Login = () => {
     const authService = new AuthApiService();
-    const { user } = useContext(AppContext);
+    const { setUser } = useContext(AppContext);
 
     const onSubmit = (values) => {
         authService.login(values).then(response => {
-            console.log(response)
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token;
+            localStorage.setItem('token', response.token)
+            authService.me().then(response => {
+                setUser(response)
+            })
         })
     }
 

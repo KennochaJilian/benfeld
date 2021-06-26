@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../AppContainer';
 
 export const Dashboard = () => {
+    const { user } = useContext(AppContext);
     return(
-        <p> Dashboard</p> 
+        <React.Fragment>
+            <p> Dashboard</p>
+            <p> Bonjour {user.firstName} </p> 
+
+        </React.Fragment>
+
     )
 }
