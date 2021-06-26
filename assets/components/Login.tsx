@@ -1,20 +1,29 @@
-import React from 'react'
+import { Form, Input } from 'antd';
+import React, { useContext } from 'react';
+import { AppContext } from "../AppContainer";
+import { AuthApiService } from '../services/AuthApiService';
 
 export const Login = () => {
+    const authService = new AuthApiService();
+    const { user } = useContext(AppContext);
 
-    const onSubmit = (event) => {
-        event.preventDefault()
-        console.log(event)
+    const onSubmit = (values) => {
+        authService.login(values).then(response => {
+            console.log(response)
+        })
     }
 
-    return(
+    return (
         <React.Fragment>
-            <p> Login</p>
-            <form onSubmit={(values) => onSubmit(values) }>
-                <input name="username" type="email" placeholder="Adresse e-mail"/>
-                <input type="password" name="password" placeholder="Mot de passe"/>
-                <button type="submit"> Se connecter </button>
-            </form>
+            <Form onFinish={onSubmit} layout="vertical">
+                <Form.Item name="username">
+                    <Input type="email" placeholder="Addresse e-mail" />
+                </Form.Item>
+                <Form.Item name="password">
+                    <Input type="password" placeholder="Mot de passe " />
+                </Form.Item>
+                <button type="submit"> Se connecter</button>
+            </Form>
         </React.Fragment>
     )
 }

@@ -77,11 +77,10 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+    .enableLessLoader()
 
     .configureDefinePlugin(options => {
         const env = dotenv.config();
-        console.log(env)
-
         if (env.error) {
             throw env.error;
         }

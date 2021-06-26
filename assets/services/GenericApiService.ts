@@ -1,19 +1,13 @@
 import axios from 'axios';
+import { IApiService } from './interface/IApiService';
 
-export class GenericApiService {
+export class GenericApiService implements IApiService {
     constructor(protected baseUrl: string) {
 
     }
 
     listBase(url: any, pagination: any, filters: any, sorter: any) {
-        return axios.get(url, {
-            params: {
-                ...filters,
-                ...(sorter?.columnKey ? { ordering: (sorter.order === 'descend' ? '-' : '') + sorter.columnKey } : null),
-                ...(pagination?.pageSize ? { limit: pagination.pageSize } : null),
-                ...(pagination?.current && pagination?.pageSize ? { offset: (pagination.current - 1) * pagination.pageSize } : null)
-            }
-        }).then(r => r.data['hydra:member'])
+        return axios.get(url).then(r => r.data['hydra:member'])
     }
 
     read(id: string): Promise<any> {

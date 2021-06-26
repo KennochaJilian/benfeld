@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { RoomApiService } from "./services/RoomApiService";
-import Room from "./classes/Room"
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Dashboard } from "./components/Dashboard";
 import { Login } from "./components/Login";
+import "./css/app.less";
+
+const AppContext: React.Context<any> = React.createContext(null);
 
 export const AppContainer = () => {
-    const service = new RoomApiService(); 
-    const [rooms, setRooms] = useState<Room[]>(); 
+    const [user, setUser] = useState();
+
+
 
     const setupAxios = () => {
         axios.defaults.baseURL = process.env.APP_API_ENDPOINT;
@@ -19,11 +22,19 @@ export const AppContainer = () => {
 
     return (
         <React.Fragment>
-            <BrowserRouter>
-            <Switch>
-                <Route path="/login"> <Login/> </Route>
-            </Switch>
-            </BrowserRouter>            
+            <AppContext.Provider value={{ user, setUser }}>
+                <BrowserRouter>
+                    <Switch>
+                        {user ?
+                            <Route path="/"> <Dashboard /> </Route>
+                            :
+                            <Route path="/"> <Login /> </Route>
+                        }
+                    </Switch>
+                </BrowserRouter>
+            </AppContext.Provider>
         </React.Fragment>
     )
 };
+
+export { AppContext }
