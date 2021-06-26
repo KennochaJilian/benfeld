@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { AppContext } from "../AppContainer";
 import { AuthApiService } from '../services/AuthApiService';
+import {openNotificationWithIcon, notificationType} from "../components/generics/Notification"
 
 export const Login = () => {
     const authService = new AuthApiService();
@@ -14,7 +15,10 @@ export const Login = () => {
             localStorage.setItem('token', response.token)
             authService.me().then(response => {
                 setUser(response)
+                openNotificationWithIcon(notificationType.success, "Connecté" , `Bonjour ${response.firstName}`)
             })
+        }).catch(response => {
+                openNotificationWithIcon(notificationType.error, "Identifiants incorrects" , ` Nous n'avons pas réussi à vous authentifier`)
         })
     }
 
