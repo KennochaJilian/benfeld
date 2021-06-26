@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Button, Form, Input} from 'antd';
 import axios from 'axios';
 import React, { useContext } from 'react';
 import { AppContext } from "../AppContainer";
@@ -32,6 +32,7 @@ export const Login = () => {
                     <Input type="password" placeholder="Mot de passe " />
                 </Form.Item>
                 <button type="submit"> Se connecter</button>
+                <Button> Se connecter </Button>
             </Form>
         </React.Fragment>
     )
