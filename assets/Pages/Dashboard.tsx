@@ -11,6 +11,8 @@ import { FullCalendarHelper } from '../services/helpers/FullCalendarHelper';
 import { BookingPopover } from '../components/BookingPopover';
 import { BookingHelper } from '../services/helpers/BookingHelper';
 import { notificationType, openNotificationWithIcon } from '../components/generics/Notification';
+import { Button } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 export const Dashboard = () => {
     let calendar;
@@ -19,6 +21,7 @@ export const Dashboard = () => {
     const [bookings, setBookings] =useState<Booking[]>([])
     const [date, setDate] = useState(null);
     const bookingService = new BookingApiService()
+    const history = useHistory();
 
     const getEvents = (dates) => {
         bookingService.getCalendar(dates.startStr, dates.endStr).then(response => {
@@ -44,6 +47,7 @@ export const Dashboard = () => {
         <React.Fragment>
             <p> Dashboard</p>
             <p> Bonjour {user.firstName} </p>
+            <Button onClick={() => history.push("/profil")}> Mon profil </Button>
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
                 initialView="dayGridMonth"
