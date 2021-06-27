@@ -5,9 +5,12 @@ import { BookingApiService } from '../services/BookingApiService';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import { Booking } from '../classes/Booking';
 import { FullCalendarHelper } from '../services/helpers/FullCalendarHelper';
 import { BookingPopover } from '../components/BookingPopover';
+import { BookingHelper } from '../services/helpers/BookingHelper';
+import { notificationType, openNotificationWithIcon } from '../components/generics/Notification';
 
 export const Dashboard = () => {
     let calendar;
@@ -24,7 +27,10 @@ export const Dashboard = () => {
         } )
     }
     const onClickDate = (args) => {
-        console.log(args.date)
+        if(!BookingHelper.bookable(args.date)){
+            openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
+            return
+        }
         setDate(args.date)
     }
 
@@ -39,13 +45,16 @@ export const Dashboard = () => {
             <p> Dashboard</p>
             <p> Bonjour {user.firstName} </p>
             <FullCalendar
-                plugins={[dayGridPlugin, interactionPlugin]}
+                plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
                 initialView="dayGridMonth"
                 locale="fr"
                 events={events}
                 datesSet={(dates) => getEvents(dates)}
                 dateClick={onClickDate}
                 eventContent={eventRender}
+                headerToolbar={{
+                    center: 'dayGridMonth,timeGridWeek,timeGridDay',
+                  }}
 
             />
             <BookingModal date={date} setDate={setDate} />

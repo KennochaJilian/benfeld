@@ -35,10 +35,10 @@ export const BookingModal = ({ date, setDate }) => {
                 <p> Nom : {user.firstName} {user.lastName} </p>
                 {user.sport && <p> Sport : {user.sport} </p>}
                 <Form.Item name="startAt" label="Date de début" initialValue={moment(date)}>
-                    <DatePicker minuteStep={15} showTime  format={'DD/MM/YYYY, hh:mm'} />
+                    <DatePicker minuteStep={15} showTime  format={'DD/MM/YYYY, HH:mm'} />
                 </Form.Item>
                 <Form.Item name="endAt" label="Date de fin">
-                    <DatePicker minuteStep={15} showTime format={'DD/MM/YYYY, hh:mm'}/>
+                    <DatePicker minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'}/>
                 </Form.Item>
                 <Form.Item name="room" label="Salle">
                     {rooms && <Select>

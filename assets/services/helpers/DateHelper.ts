@@ -1,4 +1,5 @@
 import { Moment } from "moment";
+import moment from 'moment';
 
 export class DateHelper {
   static defaultDateFormat(): string {
@@ -16,7 +17,6 @@ export class DateHelper {
   }
 
   static dateFormatterWithHours(date: string) {
-    console.log(new Date(date))
     if (!date) return "";
     return new Intl.DateTimeFormat("fr-FR", {
       year: "numeric",
@@ -51,6 +51,13 @@ export class DateHelper {
 
   static momentToDateWithFormat(moment: Moment): string {
     return moment.format(this.defaultDateFormat());
+  }
+
+  static addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    console.log(result)
+    return result;
   }
 
 }

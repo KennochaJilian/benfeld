@@ -1,5 +1,6 @@
 import { Booking } from '../../classes/Booking';
 import { BookingStatusEnum } from '../../enums/BookingStatusEnum';
+import { DateHelper } from './DateHelper';
 
 export class BookingHelper {
     public static renderStatus(status) {
@@ -18,5 +19,11 @@ export class BookingHelper {
     }
     public static canManage(status){
         return status !== BookingStatusEnum.refused && status !== BookingStatusEnum.validated 
+    }
+
+    public static bookable(dateAsk){
+        let date = new Date(dateAsk)
+
+        return +date > +DateHelper.addDays(new Date(), 14)
     }
 }
