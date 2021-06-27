@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AuthController extends AbstractController
 {
     /**
-     * @Route("/register", name="register")
+     * @Route("api/register", name="register")
      * 
      */
     public function index(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response

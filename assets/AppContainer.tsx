@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Dashboard } from "./Pages/Dashboard";
-import { Login } from "./Pages/Login";
+import { notificationType, openNotificationWithIcon } from "./components/generics/Notification";
 import "./css/app.less";
 import { IUser } from "./interfaces/IUser";
+import { Dashboard } from "./Pages/Dashboard";
+import { Login } from "./Pages/Login";
+import { UserManager } from "./Pages/UserManager";
 import { AuthApiService } from "./services/AuthApiService";
-import { notificationType, openNotificationWithIcon } from "./components/generics/Notification";
 
 const AppContext: React.Context<any> = React.createContext(null);
 
@@ -27,9 +28,9 @@ export const AppContainer = () => {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             authService.me().then(response => {
                 setUser(response)
-                openNotificationWithIcon(notificationType.success, "Connecté" , `Bonjour ${response.firstName}`)
+                openNotificationWithIcon(notificationType.success, "Connecté", `Bonjour ${response.firstName}`)
             }).catch(response => {
-                openNotificationWithIcon(notificationType.error, "Erreur" , `Une erreur est survenue`)
+                openNotificationWithIcon(notificationType.error, "Erreur", `Une erreur est survenue`)
             })
         }
     }, [])
@@ -40,7 +41,10 @@ export const AppContainer = () => {
                 <BrowserRouter>
                     <Switch>
                         {user ?
-                            <Route path="/"> <Dashboard /> </Route>
+                            <React.Fragment>
+                                <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
+                                <Route exact={true} path="/"> <Dashboard /> </Route>
+                            </React.Fragment>
                             :
                             <Route path="/"> <Login /> </Route>
                         }

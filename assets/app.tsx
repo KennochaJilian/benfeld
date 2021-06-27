@@ -7,6 +7,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "./AppContainer";
+// start the Stimulus application
+// import './bootstrap';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 

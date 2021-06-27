@@ -11,4 +11,9 @@ export class AuthApiService{
         return axios.get(url).then(r => r.data)        
     }
 
+    register(values){
+        const url = `register`
+        return axios.post(url, values).then(r => r.data)
+    }
+
 }
