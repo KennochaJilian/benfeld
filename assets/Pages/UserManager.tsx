@@ -69,6 +69,7 @@ export const UserManager = () => {
             </Table>
             <Modal 
             title="Enregistrer un utilisateur" 
+            onCancel={() =>setIsModalOpen(false)}
             visible={isModalOpen} 
             footer={[]}>
                 <UserForm setIsModalOpen={setIsModalOpen} />    
