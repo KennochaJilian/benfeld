@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookingRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * 
  */
 class Booking
 {
@@ -16,48 +19,57 @@ class Booking
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("bookings:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("bookings:read")
      */
     private $startAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("bookings:read")
      */
     private $endAt;
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('pending', 'validated', 'refused', 'cancelled', 'passed')")
+     * @Groups("bookings:read")
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("bookings:read")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("bookings:read")
      */
     private $cancellingReason;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("bookings:read")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("bookings:read")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Room::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("bookings:read")
      */
     private $room;
 

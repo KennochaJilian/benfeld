@@ -47,4 +47,19 @@ class BookingRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getByDate($from, $to)
+{
+    // $from = new \DateTime($from->format("Y-m-d")." 00:00:00");
+    // $to   = new \DateTime($to->format("Y-m-d")." 23:59:59");
+
+    $qb = $this->createQueryBuilder("e");
+    $qb
+        ->andWhere('e.startAt BETWEEN :from AND :to')
+        ->setParameter('from', $from )
+        ->setParameter('to', $to)
+    ;
+    $result = $qb->getQuery()->getResult();
+
+    return $result;
+}
 }

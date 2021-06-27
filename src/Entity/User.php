@@ -29,12 +29,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"read:user"})
+     * @Groups("bookings:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"read:user"})
+     * @Groups("bookings:read")
      */
     private $email;
 
@@ -53,12 +55,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:user"})
+     * @Groups("bookings:read")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:user"})
+     * @Groups("bookings:read")
      */
     private $lastName;
 

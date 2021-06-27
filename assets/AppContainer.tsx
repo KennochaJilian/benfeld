@@ -7,6 +7,7 @@ import { IUser } from "./interfaces/IUser";
 import { Dashboard } from "./Pages/Dashboard";
 import { Login } from "./Pages/Login";
 import { UserManager } from "./Pages/UserManager";
+import { Profil } from "./Pages/Profil";
 import { AuthApiService } from "./services/AuthApiService";
 
 const AppContext: React.Context<any> = React.createContext(null);
@@ -28,7 +29,6 @@ export const AppContainer = () => {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             authService.me().then(response => {
                 setUser(response)
-                openNotificationWithIcon(notificationType.success, "Connecté", `Bonjour ${response.firstName}`)
             }).catch(response => {
                 openNotificationWithIcon(notificationType.error, "Erreur", `Une erreur est survenue`)
             })
@@ -42,8 +42,9 @@ export const AppContainer = () => {
                     <Switch>
                         {user ?
                             <React.Fragment>
-                                <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
                                 <Route exact={true} path="/"> <Dashboard /> </Route>
+                                <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
+                                <Route path="/profil"> <Profil/> </Route>
                             </React.Fragment>
                             :
                             <Route path="/"> <Login /> </Route>

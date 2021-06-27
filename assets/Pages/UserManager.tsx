@@ -38,15 +38,12 @@ export const UserManager = () => {
     const handleChangeRoles = (e, roles,id) => {
         if(e === "ROLE_ADMIN" && !roles.includes(e)){
             roles.push(e);
-            console.log("push", roles);
-            userApiService.update(id, {roles: roles});
         } else if (e === "ROLE_USER" && roles.includes("ROLE_ADMIN")){
             roles.splice(roles.indexOf('ROLE_ADMIN'), 1);
-            console.log("remove", roles);
-            userApiService.update(id, {roles: roles});
         } else {
             return;
         }
+        userApiService.update(id, {roles: roles});
     }
 
     const selectAdmin = (roles, id) => {
@@ -63,19 +60,19 @@ export const UserManager = () => {
         <React.Fragment>
             <p> Gestion des utilisateurs</p>
             <Button type="primary" onClick={showModal}>Ajouter</Button>
+            <Table dataSource={data} >
+                <Table.Column title="email" dataIndex={["email"]} key="email" />
+                <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
+                <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />
+                <Table.Column title="Role" key="role" render={(user) => selectAdmin(user.roles, user.id)} />
+                {/* <Table.Column title="Actions" key="lastName" render={(user) => renderActions(user)} /> */}
+            </Table>
             <Modal 
             title="Enregistrer un utilisateur" 
             visible={isModalOpen} 
             footer={[]}>
                 <UserForm setIsModalOpen={setIsModalOpen} />    
             </Modal>
-            <Table dataSource={data} >
-                <Table.Column title="email" dataIndex={["email"]} key="email" />
-                <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
-                <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />
-                <Table.Column title="Role" key="role" render={(user) => selectAdmin(user.roles, user.id)} />
-                <Table.Column title="Actions" key="lastName" render={(user) => renderActions(user)} />
-            </Table>
         </React.Fragment>
 
     )
