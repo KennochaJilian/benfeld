@@ -24,6 +24,7 @@ class AuthController extends AbstractController
         $user = $serializer->deserialize($data, User::class, 'json');
         $hash = $encoder->encodePassword($user, $user->getPassword());
         $user->setPassword($hash);
+        $user->setIsDeleted(FALSE); 
         $em->persist($user);
         $em->flush();
         return $this->json([

@@ -4,15 +4,19 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"isDeleted"})
  * @ApiResource(
  *  collectionOperations={
  *      "get"={
@@ -76,6 +80,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="user")
      */
     private $bookings;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sport::class)
+     * @Groups({"read:user"})
+     */
+    private $sport;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $isDeleted;
 
     public function __construct()
     {
@@ -210,9 +225,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|Booking[]
      */
-    public function getBookings(): Collection
+    public function getBookings($status): Collection
     {
-        return $this->bookings;
+      
+            return $this->bookings; 
     }
 
     public function addBooking(Booking $booking): self
@@ -233,6 +249,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $booking->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSport(): ?Sport
+    {
+        return $this->sport;
+    }
+
+    public function setSport(?Sport $sport): self
+    {
+        $this->sport = $sport;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

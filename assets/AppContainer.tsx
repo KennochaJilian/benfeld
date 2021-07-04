@@ -6,9 +6,11 @@ import "./css/app.less";
 import { IUser } from "./interfaces/IUser";
 import { Dashboard } from "./Pages/Dashboard";
 import { Login } from "./Pages/Login";
-import { UserManager } from "./Pages/UserManager";
+import { ManageApp } from "./Pages/ManageApp";
 import { Profil } from "./Pages/Profil";
+import { UserManager } from "./Pages/UserManager";
 import { AuthApiService } from "./services/AuthApiService";
+import { UserHelper } from "./services/helpers/UserHelper";
 
 const AppContext: React.Context<any> = React.createContext(null);
 
@@ -43,8 +45,11 @@ export const AppContainer = () => {
                         {user ?
                             <React.Fragment>
                                 <Route exact={true} path="/"> <Dashboard /> </Route>
-                                <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
-                                <Route path="/profil"> <Profil/> </Route>
+                                <Route path="/profil"> <Profil /> </Route>
+                                {UserHelper.isAdmin(user) && <React.Fragment>
+                                    <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
+                                    <Route path="/gerer-app"> <ManageApp /> </Route>
+                                </React.Fragment>}
                             </React.Fragment>
                             :
                             <Route path="/"> <Login /> </Route>

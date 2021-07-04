@@ -4,7 +4,7 @@ import { AppContext } from "../AppContainer";
 import { UserApiService } from "../services/UserApiService";
 import { notificationType, openNotificationWithIcon } from "./generics/Notification";
 
-export const EditProfilePasswordForm = () => {
+export const EditProfilePasswordForm = ({setVisible}) => {
     const [form] = Form.useForm();
     const userService = new UserApiService();
     const { user } = useContext(AppContext);
@@ -21,6 +21,7 @@ export const EditProfilePasswordForm = () => {
         userService.updateUserPassword(user.id, changePasswordData).then( response => {
             openNotificationWithIcon(notificationType.success, 'Mot de passe mis à jour', `Votre mot de passe à été mis à jour.`);
             form.resetFields()
+            setVisible(false)
 
         }).catch(response => {
             openNotificationWithIcon(notificationType.error, 'Erreur lors de la mise à jour', `Le mot de passe n'a pas été mis à jour.`);

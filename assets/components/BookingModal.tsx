@@ -13,7 +13,6 @@ export const BookingModal = ({ date, setDate }) => {
     const bookingService = new BookingApiService(); 
     const [rooms, setRooms] = useState<Room[]>();
 
-
     useEffect(() => {
         
         roomService.list().then(response => setRooms(response))
@@ -28,17 +27,22 @@ export const BookingModal = ({ date, setDate }) => {
             openNotificationWithIcon(notificationType.error, "Demande non prise en compte", "Une erreur est survenue")
         })
     }
+    const disabledDateTime = () => {
+        return {
+          disabledHours: () => [0, 1,2,3,4,5,6,7,23]
+        }
+      }
 
     return (
         <Modal title={"Demande de reservation"} centered={true} closable={true} visible={date ? true : false} onCancel={() => setDate(null)} footer={null} width={'700px'}>
             <Form onFinish={onSubmit}>
                 <p> Nom : {user.firstName} {user.lastName} </p>
-                {user.sport && <p> Sport : {user.sport} </p>}
+                {user.sport && <p> Sport : {user.sport.name} </p>}
                 <Form.Item name="startAt" label="Date de début" initialValue={moment(date)}>
-                    <DatePicker minuteStep={15} showTime  format={'DD/MM/YYYY, HH:mm'} />
+                    <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime  format={'DD/MM/YYYY, HH:mm'} />
                 </Form.Item>
-                <Form.Item name="endAt" label="Date de fin">
-                    <DatePicker minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'}/>
+                <Form.Item name="endAt" label="Date de fin" initialValue={moment(date)}>
+                    <DatePicker disabledTime={disabledDateTime}  minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'}/>
                 </Form.Item>
                 <Form.Item name="room" label="Salle">
                     {rooms && <Select>

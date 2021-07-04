@@ -16,6 +16,7 @@ export const EditProfileNameForm = (props) => {
         userFromForm.id = props.initialValues.id;
         userService.update(userFromForm.id, userFromForm).then(response => {
             openNotificationWithIcon(notificationType.success, 'Profil mis à jour', `Vos informations ont été mise à jour.`)
+            props.setVisible(false)
         }).catch(response => {
             openNotificationWithIcon(notificationType.error, 'Erreur lors de la mise à jour', `Le profil n'a pas été mis à jour.`);
 

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Booking;
 use App\Entity\User;
 use App\Service\UserService;
+use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +26,7 @@ class UserController extends AbstractController
         $user = $userService->getCurrentUser();
         // $user = $serializer->serialize($user, 'json');       
 
-        return $this->json($user);
+        return $this->json($user, 200, [], ['groups' => 'read:user']);
     }
         /**
      * @Route("api/users/{id}/updatePassword", name="user_update_password")
@@ -44,4 +46,28 @@ class UserController extends AbstractController
 
         return $this->json("Mot de passe modifié", 200);
     }
+
+
+      /**
+     * @Route("api/users/{id}/bookings", name="user_bookings")
+     * @Paramconverter("user", options={"mapping": {"id" : "id"}})
+     * 
+     */
+    public function listBookings(User $user, BookingRepository $bookingRepository, Request $request)
+    {
+        if (!$user) {
+            return;
+        }
+
+        $status = $request->query->get('status');
+
+        if ($status) {
+            $bookings = $bookingRepository->findBy(['user' => $user->getId(), 'status' => $status]);
+            
+        } else {
+            $bookings = $bookingRepository->findBy(['user' => $user->getId()]);
+        }
+        return $this->json($bookings, 200);
+    }
+    
 }

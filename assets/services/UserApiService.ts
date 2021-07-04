@@ -10,4 +10,15 @@ export class UserApiService extends GenericApiService{
         
         return axios.post(url, passwords).then(r => r.data); 
     }
+    getUserBookings(userId, status){
+        let url = `${this.baseUrl}/${userId}/bookings`;
+        if (status){
+            url+=`?status=${status}`
+        }
+        return axios.get(url).then(r=>r.data);
+    }
+    getNoDeletedUser(){
+        const url = `${this.baseUrl}?isDeleted=false`;
+        return axios.get(url).then(r=>r.data['hydra:member']) 
+    }
 }
