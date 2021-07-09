@@ -15,6 +15,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { DateHelper } from '../services/helpers/DateHelper';
 
 export const Dashboard = () => {
     const { user } = useContext(AppContext);
@@ -58,6 +59,7 @@ export const Dashboard = () => {
                         <LeftNavLayout />
                     </div>
                 }
+                <Button onClick={() => setDate(DateHelper.addDays(new Date(), 15))}> Demande de réservation</Button>
                 <div className="calendar">
                     <FullCalendar
                         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}

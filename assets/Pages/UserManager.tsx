@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Table, Popconfirm, message, Select }  from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import { Modal, Button, Table, Popconfirm, message, Select, Input }  from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { UserApiService } from '../services/UserApiService';
 import { UserForm } from '../components/forms/UserForm';
 import { notificationType, openNotificationWithIcon } from '../components/generics/Notification';
-
+import { PageContent } from '../components/generics/PageContent';
+import { useHistory } from 'react-router-dom';
 
 export const UserManager = () => {
     const userApiService = new UserApiService();
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { Option } = Select;
-
-
+    const history = useHistory();
 
     const loadUsers = () => {
         userApiService.getNoDeletedUser().then(r => setData(r))
@@ -36,7 +36,7 @@ export const UserManager = () => {
         okText="Oui"
         cancelText="Non"
         >
-            <Button><CloseOutlined /></Button>
+            <Button type="primary" danger={true}><DeleteOutlined /></Button>
         </Popconfirm>
     );
 
@@ -61,14 +61,20 @@ export const UserManager = () => {
         );
     }
 
+    const onSearchUser = (value) => {
+        userApiService.searchByName(value).then(response => setData(response))
+    }
+    useEffect(() => {}, [data])
+
     return(
-        <React.Fragment>
-            <p> Gestion des utilisateurs</p>
+        <PageContent title="Gestion des utilisateurs" returnBouton={true} history={history}>
             <Button type="primary" onClick={(() => setIsModalOpen(true))}>Ajouter</Button>
+            <Input placeholder="Rechercher..." onChange={e => onSearchUser(e.target.value)}/>
             <Table dataSource={data} >
-                <Table.Column title="email" dataIndex={["email"]} key="email" />
+                <Table.Column title="Email" dataIndex={["email"]} key="email" />
                 <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
                 <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />
+                <Table.Column title="Téléphone" dataIndex={["phoneNumber"]} key="phoneNumber"/>
                 <Table.Column title="Role" key="role" render={(user) => selectAdmin(user.roles, user.id)} />
                 <Table.Column title="Actions" key="lastName" render={(user) => renderActions(user)} />
             </Table>
@@ -77,9 +83,9 @@ export const UserManager = () => {
             onCancel={() =>setIsModalOpen(false)}
             visible={isModalOpen} 
             footer={[]}>
-                <UserForm setIsModalOpen={setIsModalOpen} />    
+                <UserForm loadData={loadUsers} setIsModalOpen={setIsModalOpen} />    
             </Modal>
-        </React.Fragment>
+        </PageContent>
 
     )
 }

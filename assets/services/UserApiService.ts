@@ -21,4 +21,8 @@ export class UserApiService extends GenericApiService{
         const url = `${this.baseUrl}?isDeleted=false`;
         return axios.get(url).then(r=>r.data['hydra:member']) 
     }
+    searchByName(value){
+        const url = `${this.baseUrl}?isDeleted=false&lastName=${value}`;
+        return axios.get(url).then(r=>r.data['hydra:member']) 
+    }
 }

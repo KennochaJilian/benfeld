@@ -8,6 +8,7 @@ import { Dashboard } from "./Pages/Dashboard";
 import { Login } from "./Pages/Login";
 import { ManageApp } from "./Pages/ManageApp";
 import { Profil } from "./Pages/Profil";
+import { BookingsManager } from "./Pages/BookingsManager";
 import { UserManager } from "./Pages/UserManager";
 import { AuthApiService } from "./services/AuthApiService";
 import { UserHelper } from "./services/helpers/UserHelper";
@@ -44,12 +45,13 @@ export const AppContainer = () => {
                     <Switch>
                         {user ?
                             <React.Fragment>
-                                <Route exact={true} path="/"> <Dashboard /> </Route>
-                                <Route path="/profil"> <Profil /> </Route>
                                 {UserHelper.isAdmin(user) && <React.Fragment>
+                                    <Route path="/gestion-reservations"> <BookingsManager/> </Route>
                                     <Route path="/gestion-utilisateurs"> <UserManager /> </Route>
                                     <Route path="/gerer-app"> <ManageApp /> </Route>
                                 </React.Fragment>}
+                                <Route exact={true} path="/"> <Dashboard /> </Route>
+                                <Route path="/profil"> <Profil /> </Route>
                             </React.Fragment>
                             :
                             <Route path="/"> <Login /> </Route>

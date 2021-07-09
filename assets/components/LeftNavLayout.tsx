@@ -6,6 +6,11 @@ import { AppContext } from "../AppContainer";
 
 export const LeftNavLayout = () => {
     const { user } = useContext(AppContext);
+
+    const onLogout = () => {
+        localStorage.clear()
+        location.reload()
+    }
     return (
         <Layout>
             <Layout.Sider className="left-nav">
@@ -21,9 +26,10 @@ export const LeftNavLayout = () => {
                 )}
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['/dashboard']}>
                     <Menu.Item key={"manage-user"}> Utilisateur <Link href={"/gestion-utilisateurs"} /> </Menu.Item>
-                    <Menu.Item key={"manage-user"}> Gérer l'app <Link href={"/gerer-app"} /> </Menu.Item>
-                    <Menu.Item key={"manage-user"}> Mon profil <Link href={"/profil"} /> </Menu.Item>
-                    <Menu.Item key='/logout'> <span><LogoutOutlined className="mr-1" rotate={270} style={{ color: "red" }} />Déconnexion</span> </Menu.Item>
+                    <Menu.Item key={"manage-booking"}> Gérer réservation <Link href={"/gestion-reservations"} /> </Menu.Item>
+                    <Menu.Item key={"manage-app"}> Gérer l'app <Link href={"/gerer-app"} /> </Menu.Item>
+                    <Menu.Item key={"profil"}> Mon profil <Link href={"/profil"} /> </Menu.Item>
+                    <Menu.Item onClick={() => onLogout()} key='/logout'> <span><LogoutOutlined className="mr-1" rotate={270} style={{ color: "red" }} />Déconnexion</span> </Menu.Item>
                     <Menu.Divider />
                 </Menu>
             </Layout.Sider>

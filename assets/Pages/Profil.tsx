@@ -1,15 +1,11 @@
-import { Button, Table } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import { Button } from 'antd';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../AppContainer';
-import { Booking } from '../classes/Booking';
 import { PageContent } from '../components/generics/PageContent';
 import { ProfilModals } from '../components/ProfilModals';
 import { SelectUserSport } from '../components/SelectUserSport';
 import { UserBookings } from '../components/UserBookings';
-import { BookingHelper } from '../services/helpers/BookingHelper';
-import { DateHelper } from '../services/helpers/DateHelper';
-import { UserApiService } from '../services/UserApiService';
 
 export const Profil = () => {
     const { user } = useContext(AppContext);
@@ -25,17 +21,17 @@ export const Profil = () => {
 
 
 
- 
+
 
     return (
         <PageContent title="Mon Profil" returnBouton={true} history={history}>
             {user && <React.Fragment>
                 Bonjour {user.firstName} {user.lastName}
-                <SelectUserSport/>
+                <SelectUserSport />
                 <Button onClick={() => onClickButton("information")}> Modifier mes informations personnelles</Button>
                 <Button onClick={() => onClickButton("password")}> Modifier mon mot de passe</Button>
                 <ProfilModals visible={visible} setVisible={setVisible} formView={formView} />
-                <UserBookings/>
+                <UserBookings />
             </React.Fragment>}
 
         </PageContent >

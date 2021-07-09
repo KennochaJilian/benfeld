@@ -5,7 +5,7 @@ import { BookingStatusEnum } from '../enums/BookingStatusEnum'
 import { BookingApiService } from '../services/BookingApiService'
 import { notificationType, openNotificationWithIcon } from './generics/Notification'
 
-export const AdminBookingButtonsAction = ({ booking }) => {
+export const AdminBookingButtonsAction = ({ booking, loadData=null }) => {
     const bookingService = new BookingApiService();
 
 
@@ -13,11 +13,13 @@ export const AdminBookingButtonsAction = ({ booking }) => {
         bookingService.update(booking.id,
             { status: action == "deny" ? BookingStatusEnum.refused : BookingStatusEnum.validated }).then(response => {
                 openNotificationWithIcon(notificationType.success, "Modification prise en compte", "Le statut de la résrvation a été modifié avec succès")
+                loadData()
             })
     }
 
     return (
         <div className="flex-between">
+            {console.log(booking)}
             <Popconfirm
                 title={"Refuser la réservation ? "}
                 onConfirm={() => onClickButton("deny")}

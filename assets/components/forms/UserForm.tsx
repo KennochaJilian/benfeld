@@ -1,20 +1,20 @@
 import React from 'react';
-import  { Input, Form }  from 'antd';
+import  { Input, Form, Button }  from 'antd';
 import { AuthApiService } from '../../services/AuthApiService';
+import { notificationType, openNotificationWithIcon } from '../generics/Notification';
 
-export const UserForm = ({setIsModalOpen}) => {
+export const UserForm = ({setIsModalOpen, loadData}) => {
 
     const authService = new AuthApiService();
 
-    const onSubmit = (values) => {
-        console.log(values);
-        
+    const onSubmit = (values) => {        
         authService.register(values).then(response => {
             setIsModalOpen(false);
-            console.log("response ", response);
+            openNotificationWithIcon(notificationType.success, "Utilisateur créé", "Le nouvel utilisateur a bien été créé")
+            loadData()
             
         }).catch(response => {
-            console.log("errooor ", response);     
+            openNotificationWithIcon(notificationType.error, "Une erreur s'est produite", "")     
         })
     }
 
@@ -32,7 +32,10 @@ export const UserForm = ({setIsModalOpen}) => {
             <Form.Item name="lastName">
                 <Input type="text" placeholder="Nom" />
             </Form.Item>
-        <button type="submit">Enregistrer</button>
+            <Form.Item name="phoneNumber">
+                <Input type="phone" placeholder="Téléphone" />
+            </Form.Item>
+        <Button type="primary" htmlType="submit"> Créer utilisateur</Button>
         </Form>
     )
 }

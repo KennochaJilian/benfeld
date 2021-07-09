@@ -20,7 +20,11 @@ class CalendarController extends AbstractController
         $startDate = $request->query->get('start_date');
         $endDate = $request->query->get('end_date');
 
-        $bookings = $bookingRepository->getByDate($startDate, $endDate); 
+        $bookings = $bookingRepository->findAll(); 
+
+        if($startDate && $endDate){
+            $bookings = $bookingRepository->getByDate($startDate, $endDate);
+        }
 
         return $this->json($bookings, 200, [], ['groups' => 'bookings:read']); 
     }

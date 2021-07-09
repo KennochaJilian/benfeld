@@ -6,6 +6,9 @@ import { RoomApiService } from '../services/RoomApiService';
 import moment from 'moment';
 import { BookingApiService } from '../services/BookingApiService';
 import { notificationType, openNotificationWithIcon } from './generics/Notification';
+import { BookingHelper } from '../services/helpers/BookingHelper';
+import Input from 'antd/lib/skeleton/Input';
+import TextArea from 'antd/lib/input/TextArea';
 
 export const BookingModal = ({ date, setDate }) => {
     const { user } = useContext(AppContext);
@@ -20,6 +23,10 @@ export const BookingModal = ({ date, setDate }) => {
 
     const onSubmit = (values) => {
         const payload = bookingService.getBookingPayload(user,values)
+        if (!BookingHelper.bookable(values.startAt)) {
+            openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
+            return
+        }
         bookingService.create(payload).then(response => {
             openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée" , "Votre demande a bien été prise en compte")
             setDate(null)
@@ -48,6 +55,9 @@ export const BookingModal = ({ date, setDate }) => {
                     {rooms && <Select>
                         {rooms.map(room => <Select.Option value={room.id}>{room.name} </Select.Option>)}
                     </Select>}
+                </Form.Item>
+                <Form.Item name="comment" label="Commentaire">
+                    <TextArea placeholder="Laisser un commentaire"/>
                 </Form.Item>
                 <Button htmlType="submit" type='primary'> Reserver ! </Button>
             </Form>

@@ -10,13 +10,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Elasticsearch\DataProvider\Filter\TermFilter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiFilter(BooleanFilter::class, properties={"isDeleted"})
+ * @ApiFilter(SearchFilter::class, properties={"lastName":"start"})
  * @ApiResource(
  *  collectionOperations={
  *      "get"={

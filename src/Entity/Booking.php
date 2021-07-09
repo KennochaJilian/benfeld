@@ -73,6 +73,12 @@ class Booking
      */
     private $room;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups("bookings:read")
+     */
+    private $comment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -170,6 +176,18 @@ class Booking
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

@@ -11,4 +11,5 @@ export class Booking{
     updatedAt: string;
     user : IUser;
     room: Room;
+    comment: string;
 }

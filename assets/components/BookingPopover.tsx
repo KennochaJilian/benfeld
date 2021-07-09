@@ -14,6 +14,7 @@ export const BookingPopover = ({event, booking}) => {
           <p> Date de début : {DateHelper.dateFormatterWithHours(booking.startAt)}</p>
           <p> Date de fin : {DateHelper.dateFormatterWithHours(booking.endAt)}</p>
           <p>Status : {BookingHelper.renderStatus(booking.status)}</p>
+          <p>Commentaire : {booking.comment} </p>
           {UserHelper.isAdmin(user) && BookingHelper.canManage(booking.status) && <AdminBookingButtonsAction booking={booking}/>}
         </div>
       );

@@ -7,8 +7,11 @@ export class BookingApiService extends GenericApiService {
     constructor() {
         super('bookings');
     }
-    getCalendar(startDate, endDate) {
-        const url = `${this.baseUrl}/calendar?start_date=${startDate}&end_date=${endDate}`
+    getCalendar(startDate=null, endDate=null) {
+        let url = `${this.baseUrl}/calendar`
+        if(startDate && endDate){
+            url += `?start_date=${startDate}&end_date=${endDate}`
+        }
         return axios.get(url).then(r => r.data)
     }
 
@@ -21,7 +24,8 @@ export class BookingApiService extends GenericApiService {
             createdAt : new Date(), 
             updatedAt : new Date(), 
             user : `api/users/${user.id}`,
-            room : `api/rooms/${value.room}`
+            room : `api/rooms/${value.room}`, 
+            comment: value.comment
         })
 
     }
