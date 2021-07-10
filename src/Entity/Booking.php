@@ -7,7 +7,6 @@ use App\Repository\BookingRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=BookingRepository::class)
