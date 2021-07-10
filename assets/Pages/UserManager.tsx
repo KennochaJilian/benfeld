@@ -70,7 +70,7 @@ export const UserManager = () => {
         <PageContent title="Gestion des utilisateurs" returnBouton={true} history={history}>
             <Button type="primary" onClick={(() => setIsModalOpen(true))}>Ajouter</Button>
             <Input placeholder="Rechercher..." onChange={e => onSearchUser(e.target.value)}/>
-            <Table dataSource={data} >
+            <Table pagination={{pageSize: 5}} dataSource={data} >
                 <Table.Column title="Email" dataIndex={["email"]} key="email" />
                 <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
                 <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />

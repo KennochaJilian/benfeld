@@ -16,7 +16,9 @@ export const UserBookings = () => {
     const [status,setStatus] = useState<string>(); 
 
     const getBookings = (status=null) => {
-        userApiService.getUserBookings(user.id, status).then(response => setUserBookings(response))
+        userApiService.getUserBookings(user.id, status).then(response =>{
+            setUserBookings(response)
+        })
     } 
     
     useEffect(() => {
@@ -35,10 +37,11 @@ export const UserBookings = () => {
 
                 </Select>
                 {userBookings &&
-                    <Table dataSource={userBookings} >
+                    <Table pagination={{pageSize: 5}} dataSource={userBookings}>
                         <Table.Column title="Date de début" render={(date) => DateHelper.dateFormatterWithHours(date)} dataIndex={["startAt"]} key="startAt" />
                         <Table.Column title="Date de fin" render={(date) => DateHelper.dateFormatterWithHours(date)}  dataIndex={["endAt"]} key="endAt" />
                         <Table.Column title="Statut" render={(status) => BookingHelper.renderStatus(status)} dataIndex={["status"]} key="status" />
+                        <Table.Column title="Statut" dataIndex={["cancellingReason"]} key="cancellingReason"/>
                     </Table>
                 }
 

@@ -6,7 +6,7 @@ import { AppContext } from "../AppContainer";
 
 export const LeftNavLayout = () => {
     const { user } = useContext(AppContext);
-
+    
     const onLogout = () => {
         localStorage.clear()
         location.reload()

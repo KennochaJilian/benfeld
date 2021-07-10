@@ -34,7 +34,7 @@ export const BookingsManager = () => {
     return (
         <PageContent title="Gestion des réservations" returnBouton={true} history={history}>
             {bookings &&
-                <Table dataSource={bookings} >
+                <Table pagination={{pageSize: 5}} dataSource={bookings} >
                     <Table.Column title="Date de début" render={(date) => DateHelper.dateFormatterWithHours(date)} dataIndex={["startAt"]} key="startAt" />
                     <Table.Column title="Date de fin" render={(date) => DateHelper.dateFormatterWithHours(date)} dataIndex={["endAt"]} key="endAt" />
                     <Table.Column title="Statut" render={(status) => BookingHelper.renderStatus(status)} dataIndex={["status"]} key="status" />
