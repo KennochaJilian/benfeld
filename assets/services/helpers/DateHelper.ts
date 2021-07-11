@@ -58,5 +58,9 @@ export class DateHelper {
     result.setDate(result.getDate() + days);
     return result;
   }
+  static formatForPayload(date){
+    const format = "YYYY-MM-DD hh:mm"
+    return moment(date).tz("Europe/Paris").format(format)
+  }
 
 }

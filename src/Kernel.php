@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
+ini_set('date.timezone', 'Europe/Paris');
+
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;

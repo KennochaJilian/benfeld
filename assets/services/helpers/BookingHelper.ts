@@ -26,4 +26,16 @@ export class BookingHelper {
 
         return +date > +DateHelper.addDays(new Date(), 14)
     }
+
+    public static checkIfDatesOverlap(a,b){
+        b.startAt = new Date(b.startAt); 
+        b.endAt = new Date(b.endAt)
+        return !(b.startAt <= a.startAt && a.startAt <= b.endAt) &&
+               !(b.startAt <= a.endAt && a.endAt <= b.endAt) 
+    }
+
+    public static canBooking(startAt, endAt, askedRoomId, bookings:Booking[]){
+        return bookings.every(booking => !this.checkIfDatesOverlap({startAt,endAt}, booking) && booking.room.id == askedRoomId && booking.status != BookingStatusEnum.pending)       
+    }
+
 }

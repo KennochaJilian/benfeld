@@ -10,25 +10,32 @@ import { BookingHelper } from '../services/helpers/BookingHelper';
 import Input from 'antd/lib/skeleton/Input';
 import TextArea from 'antd/lib/input/TextArea';
 
-export const BookingModal = ({ date, setDate }) => {
+export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     const { user } = useContext(AppContext);
     const roomService = new RoomApiService();
     const bookingService = new BookingApiService(); 
     const [rooms, setRooms] = useState<Room[]>();
 
-    useEffect(() => {
-        
+    useEffect(() => {        
         roomService.list().then(response => setRooms(response))
     }, [])
 
     const onSubmit = (values) => {
+        
         const payload = bookingService.getBookingPayload(user,values)
+
+        if(!BookingHelper.canBooking(values.startAt, values.endAt, values.room, bookings)){
+            openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
+            return
+        }
+
         if (!BookingHelper.bookable(values.startAt)) {
             openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
             return
         }
         bookingService.create(payload).then(response => {
             openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée" , "Votre demande a bien été prise en compte")
+            loadData()
             setDate(null)
         }).catch(response => {
             openNotificationWithIcon(notificationType.error, "Demande non prise en compte", "Une erreur est survenue")

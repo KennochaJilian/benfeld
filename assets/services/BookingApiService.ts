@@ -1,7 +1,8 @@
 import axios from "axios";
 import { GenericApiService } from "./GenericApiService";
 import {FullCalendarHelper} from "./helpers/FullCalendarHelper"
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { DateHelper } from "./helpers/DateHelper";
 
 export class BookingApiService extends GenericApiService {
     constructor() {
@@ -16,13 +17,14 @@ export class BookingApiService extends GenericApiService {
     }
 
     getBookingPayload(user, value){
+        const format = "YYYY-MM-DD hh:mm"
 
         return({
-            startAt : moment(value.startAt).toDate(), 
-            endAt : moment(value.endAt).toDate(),
+            startAt: moment(value.startAt).tz("Europe/Paris").format(format), 
+            endAt :moment(value.endAt).tz("Europe/Paris").format(format),
             status : "pending", 
-            createdAt : new Date(), 
-            updatedAt : new Date(), 
+            createdAt : moment(new Date()).tz("Europe/Paris").format(format), 
+            updatedAt : moment(new Date()).tz("Europe/Paris").format(format), 
             user : `api/users/${user.id}`,
             room : `api/rooms/${value.room}`, 
             comment: value.comment

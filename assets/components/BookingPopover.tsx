@@ -6,7 +6,7 @@ import { DateHelper } from '../services/helpers/DateHelper';
 import {UserHelper} from '../services/helpers/UserHelper'
 import { AdminBookingButtonsAction } from './AdminBookingButtonsAction';
 
-export const BookingPopover = ({event, booking}) => {
+export const BookingPopover = ({event, booking, loadData}) => {
     const { user } = useContext(AppContext);
 
     const content = (
@@ -15,7 +15,7 @@ export const BookingPopover = ({event, booking}) => {
           <p> Date de fin : {DateHelper.dateFormatterWithHours(booking.endAt)}</p>
           <p>Status : {BookingHelper.renderStatus(booking.status)}</p>
           <p>Commentaire : {booking.comment} </p>
-          {UserHelper.isAdmin(user) && BookingHelper.canManage(booking.status) && <AdminBookingButtonsAction booking={booking}/>}
+          {UserHelper.isAdmin(user) && BookingHelper.canManage(booking.status) && <AdminBookingButtonsAction loadData={loadData}booking={booking}/>}
         </div>
       );
       
