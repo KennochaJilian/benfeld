@@ -5,7 +5,7 @@ import { UserHelper } from '../../services/helpers/UserHelper';
 import LeftNavLayout from '../LeftNavLayout';
 import { AppContext } from '../../AppContainer';
 
-export const PageContent = ({ title, extra, children, returnBouton = false, history = null }: IPageContentProps) => {
+export const PageContent = ({ title, children, returnBouton = false, history = null }) => {
   const { user } = useContext(AppContext);
   
   return (
@@ -19,7 +19,7 @@ export const PageContent = ({ title, extra, children, returnBouton = false, hist
                 }
 
       <div className='page-content'>
-      <PageHeader title={title} extra={extra} />
+      <PageHeader title={title}  />
         {children}
       </div>
     </div>
