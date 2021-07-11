@@ -1,7 +1,6 @@
 import { Button, PageHeader } from 'antd';
 import React, { useContext } from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { IPageContentProps } from '../interfaces/IPageContentProps';
 import { UserHelper } from '../../services/helpers/UserHelper';
 import LeftNavLayout from '../LeftNavLayout';
 import { AppContext } from '../../AppContainer';
