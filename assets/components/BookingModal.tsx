@@ -28,7 +28,6 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
             openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
             return
         }
-
         if (!BookingHelper.bookable(values.startAt)) {
             openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
             return

@@ -24,9 +24,9 @@ Encore
     .addEntry('app', './assets/app.tsx')
     .enableTypeScriptLoader()
 
-      // optionally enable forked type script for faster builds
-      // https://www.npmjs.com/package/fork-ts-checker-webpack-plugin
-      // requires that you have a tsconfig.json file that is setup correctly.
+    // optionally enable forked type script for faster builds
+    // https://www.npmjs.com/package/fork-ts-checker-webpack-plugin
+    // requires that you have a tsconfig.json file that is setup correctly.
     // .enableForkedTypeScriptTypesChecking()
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
@@ -77,7 +77,14 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
-    .enableLessLoader()
+    .enableLessLoader(options => options = {
+        lessOptions:{
+              modifyVars: {
+                'primary-color': '#f1a512'
+              }
+            
+          }
+    })    
 
     .configureDefinePlugin(options => {
         const env = dotenv.config();
@@ -87,6 +94,8 @@ Encore
 
         options['process.env'].APP_API_ENDPOINT = JSON.stringify(env.parsed.APP_API_ENDPOINT);
     })
-;
+    ;
+
+
 
 module.exports = Encore.getWebpackConfig();
