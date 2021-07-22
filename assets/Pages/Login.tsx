@@ -3,7 +3,8 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { AppContext } from "../AppContainer";
 import { AuthApiService } from '../services/AuthApiService';
-import {openNotificationWithIcon, notificationType} from "../components/generics/Notification"
+import {openNotificationWithIcon, notificationType} from "../components/generics/Notification";
+import "../css/login.less";
 
 export const Login = () => {
     const authService = new AuthApiService();
@@ -23,16 +24,19 @@ export const Login = () => {
     }
 
     return (
-        <React.Fragment>
-            <Form onFinish={onSubmit} layout="vertical">
-                <Form.Item name="username">
-                    <Input type="email" placeholder="Addresse e-mail" />
-                </Form.Item>
-                <Form.Item name="password">
-                    <Input type="password" placeholder="Mot de passe " />
-                </Form.Item>
-                <button type="submit"> Se connecter</button>
-            </Form>
-        </React.Fragment>
+        <div className="login-container">
+            <div className="form-container">
+                <h1>BENFELD</h1>
+                <Form className="form-input" onFinish={onSubmit} layout="vertical">
+                    <Form.Item name="username">
+                        <Input type="email" placeholder="Addresse e-mail" />
+                    </Form.Item>
+                    <Form.Item name="password">
+                        <Input type="password" placeholder="Mot de passe " />
+                    </Form.Item>
+                    <Button type="default" htmlType="submit" className="login-button">Se connecter</Button>
+                </Form>
+            </div>
+        </div>
     )
 }
