@@ -79,8 +79,12 @@ Encore
     //.autoProvidejQuery()
     .enableLessLoader(options => options = {
         lessOptions:{
-              modifyVars: {
-                'primary-color': '#f1a512'
+            modifyVars: {
+                "@primary-color": '#f1a512',
+                "@btn-primary-color": '#f1a512',
+                "@btn-default-bg": '#f1a512',
+                "@btn-default-border": '#f1a512',
+                "@btn-default-color": '#fff',
               }
             
           }

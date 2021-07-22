@@ -12,6 +12,7 @@ import { BookingsManager } from "./Pages/BookingsManager";
 import { UserManager } from "./Pages/UserManager";
 import { AuthApiService } from "./services/AuthApiService";
 import { UserHelper } from "./services/helpers/UserHelper";
+import "./css/modifyTheme.less"
 
 const AppContext: React.Context<any> = React.createContext(null);
 

@@ -16,6 +16,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { DateHelper } from '../services/helpers/DateHelper';
 import { PageContent } from '../components/generics/PageContent';
+import "../css/dashboard.less"
 
 export const Dashboard = () => {
     const { user } = useContext(AppContext);
@@ -60,8 +61,10 @@ export const Dashboard = () => {
                     <Button onClick={() => history.push("/profil")}> Mon profil </Button>
                 </React.Fragment>
             }
-            <div className="display-flex">
-                <Button onClick={() => setDate(DateHelper.addDays(new Date(), 15))}> Demande de réservation</Button>
+            <div>
+                <Button type="primary" className="button-ask-booking" onClick={() => setDate(DateHelper.addDays(new Date(), 15))}> Demande de réservation</Button>
+                <div className="calendar-container">
+
                 <div className="calendar">
                     <FullCalendar
                         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
@@ -75,6 +78,7 @@ export const Dashboard = () => {
                             center: 'dayGridMonth,timeGridWeek,timeGridDay',
                         }}
                     />
+                </div>
                 </div>
             </div>
             <BookingModal loadData={loadData} bookings={bookings} date={date} setDate={setDate} />
