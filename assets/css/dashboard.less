@@ -1,7 +1,13 @@
 .button-ask-booking{
-    position : fixed; 
-    top: 20px; 
-    right : 20px
+    position : absolute; 
+    bottom: 20px; 
+    right : 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px; 
+    min-height: 40px;
+    font-size: 26px;
 }
 .calendar{
     width: 80%;
@@ -10,26 +16,30 @@
 .calendar-container{
     display : flex; 
     justify-content: center;
-    background-color: #f1a512;
+    background-color: #fafafa;
     margin: 2em;
     border-radius: 20px;
     padding: 1em;
+    position: relative;
     .fc-theme-standard .fc-scrollgrid{
         border : none;
     }
+    .fc-media-screen{
+        height: 80vh;
+    }
     .fc-theme-standard td, .fc-theme-standard th{
-        background-color: #5B5B5B; 
+        background-color: #fafafa; 
         margin: 0.5em; 
         border : 5px solid #f1a512; 
     }
     a {
-        color: white; 
+        color: #5B5B5B; 
         font-weight: bold;
         font-size: 16px;
         text-align: center;
     }
     .fc .fc-daygrid-day.fc-day-today {
-        background-color:#5B5B5B ;
+        background-color:white ;
         a{
             color: #f1a512; 
         }
@@ -37,4 +47,25 @@
     .fc .fc-daygrid-day-top{
         justify-content: center;
     }
+}
+
+
+.info-form-container{
+    font-size: 20px;
+    p{
+        margin-bottom: 5px
+    }
+    .info-form{
+        color:#f1a512; 
+        margin-bottom: 20px;
+    }
+}
+.sport-options{
+    background-color: #484848;
+    color:white;
+}
+.sport-options:hover{
+    background-color: #484848;
+    color: #f1a512; 
+    font-weight: bold;
 }

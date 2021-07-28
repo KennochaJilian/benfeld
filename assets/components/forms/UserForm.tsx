@@ -1,29 +1,29 @@
+import { Button, Form, Input, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import  { Input, Form, Button, Select }  from 'antd';
-import { AuthApiService } from '../../services/AuthApiService';
-import { notificationType, openNotificationWithIcon } from '../generics/Notification';
 import Sport from '../../classes/Sport';
+import { AuthApiService } from '../../services/AuthApiService';
 import { SportApiService } from '../../services/SportApiService';
+import { notificationType, openNotificationWithIcon } from '../generics/Notification';
 
-export const UserForm = ({setIsModalOpen, loadData}) => {
+export const UserForm = ({ setIsModalOpen, loadData }) => {
 
     const authService = new AuthApiService();
-    const [sports,setSports] = useState<Sport[]>();
-    const sportApiService = new SportApiService(); 
-    
+    const [sports, setSports] = useState<Sport[]>();
+    const sportApiService = new SportApiService();
+
     useEffect(() => {
         sportApiService.list().then(response => setSports(response))
     }, [])
 
-    const onSubmit = (values) => {   
-        values.sport = `api/sports/${values.sport}`     
+    const onSubmit = (values) => {
+        values.sport = `api/sports/${values.sport}`
         authService.register(values).then(response => {
             setIsModalOpen(false);
             openNotificationWithIcon(notificationType.success, "Utilisateur créé", "Le nouvel utilisateur a bien été créé")
             loadData()
-            
+
         }).catch(response => {
-            openNotificationWithIcon(notificationType.error, "Une erreur s'est produite", "")     
+            openNotificationWithIcon(notificationType.error, "Une erreur s'est produite", "")
         })
     }
 
@@ -45,11 +45,13 @@ export const UserForm = ({setIsModalOpen, loadData}) => {
                 <Input type="phone" placeholder="Téléphone" />
             </Form.Item>
             <Form.Item name="sport" label="Sport">
-                    {sports && <Select>
-                        {sports.map(room => <Select.Option value={room.id}>{room.name} </Select.Option>)}
-                    </Select>}
-                </Form.Item>
-        <Button type="primary" htmlType="submit"> Créer utilisateur</Button>
+                {sports && <Select>
+                    {sports.map(room => <Select.Option value={room.id}>{room.name} </Select.Option>)}
+                </Select>}
+            </Form.Item>
+            <div className="flex-end">
+                <Button type="primary" htmlType="submit"> Créer utilisateur</Button>
+            </div>
         </Form>
     )
 }

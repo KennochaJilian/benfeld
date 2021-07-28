@@ -4,7 +4,7 @@ import { AppContext } from "../AppContainer";
 import { UserApiService } from "../services/UserApiService";
 import { notificationType, openNotificationWithIcon } from "./generics/Notification";
 
-export const EditProfilePasswordForm = ({setVisible}) => {
+export const EditProfilePasswordForm = ({ setVisible }) => {
     const [form] = Form.useForm();
     const userService = new UserApiService();
     const { user } = useContext(AppContext);
@@ -18,7 +18,7 @@ export const EditProfilePasswordForm = ({setVisible}) => {
             oldPassword: passwordsFromForm.oldPassword,
             newPassword: passwordsFromForm.newPassword
         };
-        userService.updateUserPassword(user.id, changePasswordData).then( response => {
+        userService.updateUserPassword(user.id, changePasswordData).then(response => {
             openNotificationWithIcon(notificationType.success, 'Mot de passe mis à jour', `Votre mot de passe à été mis à jour.`);
             form.resetFields()
             setVisible(false)
@@ -51,7 +51,9 @@ export const EditProfilePasswordForm = ({setVisible}) => {
                 >
                     <Input.Password />
                 </Form.Item>
-                <Button type="primary" htmlType="submit" className="mt-1em">Modifier mon mot de passe</Button>
+                <div className="flex-end">
+                    <Button type="primary" htmlType="submit" className="mt-1em">Modifier mon mot de passe</Button>
+                </div>
             </Form>
         </React.Fragment>
     )

@@ -58,12 +58,16 @@ export const UserBookings = () => {
 
 
     return (
-        <React.Fragment>
+        <div className="user-bookings">
             <p> Vos réservations : </p>
-            <Select className="select-sport" onChange={(value: string) => setStatus(value)}>
-                {$enum(BookingStatusEnum).map(v => <Select.Option value={v}> {BookingHelper.renderStatus(v)} </Select.Option>)}
+            <div className="select-container">
+                <Select placeholder="Filtrer..." className="select-sport" onChange={(value: string) => setStatus(value)}>
+                    {$enum(BookingStatusEnum).map(v => <Select.Option value={v}> {BookingHelper.renderStatus(v)} </Select.Option>)}
 
-            </Select>
+                </Select>
+                <Button onClick={() => setStatus(null)} className="btn-profil" type="primary"> Toutes les réservations</Button>
+
+            </div>
             {userBookings &&
                 <Table pagination={{ pageSize: 5 }} dataSource={userBookings}>
                     <Table.Column title="Date de début" render={(date) => DateHelper.dateFormatterWithHours(date)} dataIndex={["startAt"]} key="startAt" />
@@ -76,6 +80,6 @@ export const UserBookings = () => {
                 </Table>
             }
 
-        </React.Fragment>
+        </div>
     )
 }

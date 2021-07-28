@@ -1,30 +1,29 @@
-import { Button, DatePicker, Form, Modal, Select } from 'antd';
+import { Button, Col, DatePicker, Form, Modal, Row, Select } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
+import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../AppContainer';
 import Room from '../classes/Room';
-import { RoomApiService } from '../services/RoomApiService';
-import moment from 'moment';
 import { BookingApiService } from '../services/BookingApiService';
-import { notificationType, openNotificationWithIcon } from './generics/Notification';
 import { BookingHelper } from '../services/helpers/BookingHelper';
-import Input from 'antd/lib/skeleton/Input';
-import TextArea from 'antd/lib/input/TextArea';
+import { RoomApiService } from '../services/RoomApiService';
+import { notificationType, openNotificationWithIcon } from './generics/Notification';
 
 export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     const { user } = useContext(AppContext);
     const roomService = new RoomApiService();
-    const bookingService = new BookingApiService(); 
+    const bookingService = new BookingApiService();
     const [rooms, setRooms] = useState<Room[]>();
 
-    useEffect(() => {        
+    useEffect(() => {
         roomService.list().then(response => setRooms(response))
     }, [])
 
     const onSubmit = (values) => {
-        
-        const payload = bookingService.getBookingPayload(user,values)
 
-        if(!BookingHelper.canBooking(values.startAt, values.endAt, values.room, bookings)){
+        const payload = bookingService.getBookingPayload(user, values)
+
+        if (!BookingHelper.canBooking(values.startAt, values.endAt, values.room, bookings)) {
             openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
             return
         }
@@ -33,7 +32,7 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
             return
         }
         bookingService.create(payload).then(response => {
-            openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée" , "Votre demande a bien été prise en compte")
+            openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée", "Votre demande a bien été prise en compte")
             loadData()
             setDate(null)
         }).catch(response => {
@@ -42,30 +41,44 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     }
     const disabledDateTime = () => {
         return {
-          disabledHours: () => [0, 1,2,3,4,5,6,7,23]
+            disabledHours: () => [0, 1, 2, 3, 4, 5, 6, 7, 23]
         }
-      }
+    }
 
     return (
-        <Modal title={"Demande de reservation"} centered={true} closable={true} visible={date ? true : false} onCancel={() => setDate(null)} footer={null} width={'700px'}>
-            <Form onFinish={onSubmit}>
-                <p> Nom : {user.firstName} {user.lastName} </p>
-                {user.sport && <p> Sport : {user.sport.name} </p>}
-                <Form.Item name="startAt" label="Date de début" initialValue={moment(date)}>
-                    <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime  format={'DD/MM/YYYY, HH:mm'} />
-                </Form.Item>
-                <Form.Item name="endAt" label="Date de fin" initialValue={moment(date)}>
-                    <DatePicker disabledTime={disabledDateTime}  minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'}/>
-                </Form.Item>
-                <Form.Item name="room" label="Salle">
-                    {rooms && <Select>
-                        {rooms.map(room => <Select.Option value={room.id}>{room.name} </Select.Option>)}
-                    </Select>}
-                </Form.Item>
-                <Form.Item name="comment" label="Commentaire">
-                    <TextArea placeholder="Laisser un commentaire"/>
-                </Form.Item>
-                <Button htmlType="submit" type='primary'> Reserver ! </Button>
+        <Modal className="booking-modal" title={"Demande de reservation"} centered={true} closable={true} visible={date ? true : false} onCancel={() => setDate(null)} footer={null} width={'700px'}>
+            <Form layout="vertical" onFinish={onSubmit}>
+                <Row>
+                    <Col md={12}>
+                        <div className="info-form-container"> 
+                            <p> Nom </p>
+                            <p className="info-form">{user.firstName} {user.lastName} </p>
+                        </div>
+                        <Form.Item name="startAt" label="Date de début" initialValue={moment(date)}>
+                            <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
+                        </Form.Item>
+                        <Form.Item name="endAt" label="Date de fin" initialValue={moment(date)}>
+                            <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
+                        </Form.Item>
+                    </Col>
+                    <Col md={12}>
+                        <div className="info-form-container"> 
+                            <p> Sport</p>
+                            <p className="info-form"> {user.sport.name} </p>
+                        </div>
+                        <Form.Item name="room" label="Salle">
+                            {rooms && <Select>
+                                {rooms.map(room => <Select.Option className="sport-options" value={room.id}>{room.name} </Select.Option>)}
+                            </Select>}
+                        </Form.Item>
+                        <Form.Item name="comment" label="Commentaire">
+                            <TextArea placeholder="Laisser un commentaire" />
+                        </Form.Item>
+                        <div className="flex-end">
+                            <Button htmlType="submit" type='primary'> Reserver ! </Button>
+                        </div>
+                    </Col>
+                </Row>
             </Form>
 
         </Modal>

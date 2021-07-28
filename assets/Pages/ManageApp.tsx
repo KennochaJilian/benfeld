@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import Room from "../classes/Room";
 import Sport from "../classes/Sport";
@@ -6,6 +5,7 @@ import { DeleteButton } from "../components/GenericButton";
 import { notificationType, openNotificationWithIcon } from "../components/generics/Notification";
 import { PageContent } from "../components/generics/PageContent";
 import { ManageAppModals } from "../components/ManageAppModals";
+import "../css/manageApp.less";
 import { RoomApiService } from "../services/RoomApiService";
 import { SportApiService } from "../services/SportApiService";
 
@@ -31,10 +31,10 @@ export const ManageApp = () => {
         loadData()
     }
 
-    const deleteData = (dataId, typeData) =>{
-        if (typeData == "sport"){
+    const deleteData = (dataId, typeData) => {
+        if (typeData == "sport") {
             sportApiService.delete(dataId).then(response => {
-                onSuccessDeleted('sport')                
+                onSuccessDeleted('sport')
             })
             return
         }
@@ -47,20 +47,32 @@ export const ManageApp = () => {
     const generateList = (dataSource, typeData) => {
         return <ul>
             {dataSource.map(data =>
-                <React.Fragment>
-                    <li>{data.name}</li>
-                    <DeleteButton title="Supprimer" onConfirm = {() => deleteData(data.id, typeData) }/>
-                </React.Fragment> )}
+                <li><span className="data-name"> {data.name} </span> <DeleteButton title="Supprimer" onConfirm={() => deleteData(data.id, typeData)} /> </li>
+            )}
         </ul>
     }
 
     return (
-        <PageContent title="Gérer les informations de réservations" returnBouton={true} history={history}>
-            <Button onClick={() => setDataToManage("sport")}> Ajouter un sport</Button>
-            {sports && generateList(sports, "sport")}
-            <Button onClick={() => setDataToManage("room")}> Ajouter une salle </Button>
-            {rooms && generateList(rooms, "salle")}
-            <ManageAppModals loadData={loadData} dataToManage={dataToManage} setDataToManage={setDataToManage} />
+        <PageContent title="Autres options" returnBouton={true} history={history}>
+            <div id="manage-app-container">
+                <div className="container-manage-app">
+                    <div className="btn-manage-app">
+                        <span className="title">Sports </span> <span className="add-data" onClick={() => setDataToManage("sport")}>+</span></div>
+                    <div className="list-data">
+                        {sports && generateList(sports, "sport")}
+                    </div>
+                </div>
+                <div className="container-manage-app">
+                    <div className="btn-manage-app">
+                        <span className="title"> Salles </span>
+                        <span className="add-data" onClick={() => setDataToManage("room")}>+</span>
+                    </div>
+                    <div className="list-data">
+                        {rooms && generateList(rooms, "salle")}
+                    </div>
+                </div>
+                <ManageAppModals loadData={loadData} dataToManage={dataToManage} setDataToManage={setDataToManage} />
+            </div>
         </PageContent>
 
     )

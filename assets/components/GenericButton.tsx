@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Popconfirm } from "antd"
-import { DeleteOutlined } from '@ant-design/icons'
+import { CloseOutlined } from '@ant-design/icons'
 
 export const DeleteButton = ({ title, onConfirm, onCancel = null, label = null }) => {
     return (
@@ -10,7 +10,7 @@ export const DeleteButton = ({ title, onConfirm, onCancel = null, label = null }
             onCancel={onCancel}
             okText="Oui"
             cancelText="Non" >
-            <Button icon={<DeleteOutlined />} type="primary" danger={true} >{label}</Button>
+            <Button icon={<CloseOutlined />} type="link" danger={true} >{label}</Button>
         </Popconfirm>
     )
   }

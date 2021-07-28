@@ -10,8 +10,6 @@ export const PageContent = ({ title, children, returnBouton = false, history = n
   
   return (
     <div className="main-container">
-      {returnBouton && history &&
-        <Button className="mt-1em margin-left-1em" onClick={() => history.goBack()} ><ArrowLeftOutlined /> Retour </Button>}
         {user && UserHelper.isAdmin(user) &&
                     <div>
                         <LeftNavLayout />

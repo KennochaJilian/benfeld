@@ -35,7 +35,9 @@ export const EditProfileNameForm = (props) => {
                 <Form.Item className='form-input' name="phoneNumber" label="Numéro de téléphone">
                     <Input />
                 </Form.Item>
-                <Button type="primary" htmlType="submit" className="mt-1em"> Modifier mes informations personnelles </Button>
+                <div className="flex-end">
+                    <Button type="primary" htmlType="submit" className="mt-1em"> Modifier mes informations personnelles </Button>
+                </div>
             </Form>
         </React.Fragment>
     )

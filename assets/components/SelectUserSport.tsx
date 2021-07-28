@@ -37,7 +37,7 @@ export const SelectUserSport = () => {
             Sport associé :
             {sports && <React.Fragment>
                 {user.sport && !updateMode ? 
-                <p> {user.sport.name} <EditOutlined className="cursor-pointer" onClick={() => setUpdateMode(true)} /> </p>
+                <span className="sport"> {user.sport.name} <EditOutlined className="cursor-pointer" onClick={() => setUpdateMode(true)} /> </span>
                  :
                     <Select className="select-sport" onChange={value => onChangeSelect(value)}>
                         {sports.map(sport => <Select.Option value={sport.id}> {sport.name} </Select.Option>)}
