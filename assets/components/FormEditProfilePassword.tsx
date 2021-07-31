@@ -1,6 +1,7 @@
 import { Button, Form, Input } from "antd";
 import React, { useContext } from "react";
 import { AppContext } from "../AppContainer";
+import { Rules } from "../classes/Rules";
 import { UserApiService } from "../services/UserApiService";
 import { notificationType, openNotificationWithIcon } from "./generics/Notification";
 
@@ -8,6 +9,7 @@ export const EditProfilePasswordForm = ({ setVisible }) => {
     const [form] = Form.useForm();
     const userService = new UserApiService();
     const { user } = useContext(AppContext);
+    const requiredRules = [Rules.Required];
 
     const onFinish = (passwordsFromForm) => {
         updatePassword(passwordsFromForm);
@@ -40,10 +42,10 @@ export const EditProfilePasswordForm = ({ setVisible }) => {
     return (
         <React.Fragment>
             <Form form={form} onFinish={onFinish} onFinishFailed={null} layout='vertical'>
-                <Form.Item className='form-input' name={"oldPassword"} label="Ancien mot de passe">
+                <Form.Item rules={requiredRules}  className='form-input' name={"oldPassword"} label="Ancien mot de passe">
                     <Input.Password />
                 </Form.Item>
-                <Form.Item className='form-input' name={"newPassword"} label="Nouveau mot de passe">
+                <Form.Item rules={requiredRules} className='form-input' name={"newPassword"} label="Nouveau mot de passe">
                     < Input.Password />
                 </Form.Item>
                 <Form.Item className='form-input' name={"confirm"} dependencies={['newPassword']} hasFeedback={true} label="Confirmation de mot de passe"

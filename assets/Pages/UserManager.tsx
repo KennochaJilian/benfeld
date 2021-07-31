@@ -13,7 +13,6 @@ export const UserManager = () => {
     const userApiService = new UserApiService();
     const [users, setUsers] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { Option } = Select;
     const history = useHistory();
     const responsiveContext = useContext(ResponsiveContext);
 

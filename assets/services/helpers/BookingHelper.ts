@@ -35,7 +35,7 @@ export class BookingHelper {
     }
 
     public static canBooking(startAt, endAt, askedRoomId, bookings:Booking[]){
-        return bookings.every(booking => !this.checkIfDatesOverlap({startAt,endAt}, booking) && booking.room.id == askedRoomId && booking.status != BookingStatusEnum.pending)       
+        return !bookings.every(booking => !this.checkIfDatesOverlap({startAt,endAt}, booking) && booking.room.id == askedRoomId && booking.status != BookingStatusEnum.pending)       
     }
 
 }

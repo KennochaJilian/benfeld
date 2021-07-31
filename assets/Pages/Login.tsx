@@ -5,10 +5,12 @@ import { AppContext } from "../AppContainer";
 import { AuthApiService } from '../services/AuthApiService';
 import {openNotificationWithIcon, notificationType} from "../components/generics/Notification";
 import "../css/login.less";
+import { Rules } from '../classes/Rules';
 
 export const Login = () => {
     const authService = new AuthApiService();
     const { setUser } = useContext(AppContext);
+    const requiredRules = [Rules.Required];
 
     const onSubmit = (values) => {
         authService.login(values).then(response => {
@@ -28,10 +30,10 @@ export const Login = () => {
             <div className="form-container">
                 <h1>BENFELD</h1>
                 <Form className="form-input" onFinish={onSubmit} layout="vertical">
-                    <Form.Item name="username">
+                    <Form.Item rules={requiredRules}  name="username">
                         <Input type="email" placeholder="Addresse e-mail" />
                     </Form.Item>
-                    <Form.Item name="password">
+                    <Form.Item rules={requiredRules} name="password">
                         <Input type="password" placeholder="Mot de passe " />
                     </Form.Item>
                     <Button type="default" htmlType="submit" className="login-button">Se connecter</Button>

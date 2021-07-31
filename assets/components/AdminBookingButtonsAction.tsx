@@ -13,7 +13,7 @@ export const AdminBookingButtonsAction = ({ booking, loadData=null }) => {
     const onClickButton = (action) => {
         bookingService.update(booking.id,
             { status: action == "deny" ? BookingStatusEnum.refused : BookingStatusEnum.validated, cancellingReason }).then(response => {
-                openNotificationWithIcon(notificationType.success, "Modification prise en compte", "Le statut de la résrvation a été modifié avec succès")
+                openNotificationWithIcon(notificationType.success, "Modification prise en compte", "Le statut de la réservation a été modifié avec succès")
                 loadData()
             })
     }

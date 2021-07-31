@@ -40,7 +40,7 @@ export const UserBookings = () => {
             <p> Vos réservations : </p>
             <div className="select-container">
                 <Select placeholder="Filtrer..." className="select-sport" onChange={(value: string) => setStatus(value)}>
-                    {$enum(BookingStatusEnum).map(v => <Select.Option value={v}> {BookingHelper.renderStatus(v)} </Select.Option>)}
+                    {$enum(BookingStatusEnum).map(v => <Select.Option className="sport-options" value={v}> {BookingHelper.renderStatus(v)} </Select.Option>)}
 
                 </Select>
                 <Button onClick={() => setStatus(null)} className="btn-profil" type="primary"> Toutes les réservations</Button>

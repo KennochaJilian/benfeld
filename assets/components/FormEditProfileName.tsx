@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
+import { Rules } from "../classes/Rules";
 import { IUser } from "../interfaces/IUser";
 import { UserApiService } from "../services/UserApiService";
 import { notificationType, openNotificationWithIcon } from "./generics/Notification";
@@ -7,6 +8,7 @@ import { notificationType, openNotificationWithIcon } from "./generics/Notificat
 export const EditProfileNameForm = (props) => {
     const [form] = Form.useForm();
     const userService = new UserApiService();
+    const requiredRules = [Rules.Required];
 
     const onFinish = (userFromForm: IUser) => {
         updateUserNames(userFromForm);
@@ -26,13 +28,8 @@ export const EditProfileNameForm = (props) => {
     return (
         <React.Fragment>
             <Form form={form} initialValues={props.initialValues} onFinish={onFinish} layout='vertical'>
-                <Form.Item className='form-input' name="firstName" label="Prénom">
-                    <Input />
-                </Form.Item>
-                <Form.Item className='form-input' name="lastName" label="Nom">
-                    <Input />
-                </Form.Item>
-                <Form.Item className='form-input' name="phoneNumber" label="Numéro de téléphone">
+               
+                <Form.Item rules={requiredRules} className='form-input' name="phoneNumber" label="Numéro de téléphone">
                     <Input />
                 </Form.Item>
                 <div className="flex-end">

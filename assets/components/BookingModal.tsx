@@ -4,6 +4,7 @@ import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../AppContainer';
 import Room from '../classes/Room';
+import { Rules } from '../classes/Rules';
 import { BookingApiService } from '../services/BookingApiService';
 import { BookingHelper } from '../services/helpers/BookingHelper';
 import { RoomApiService } from '../services/RoomApiService';
@@ -14,6 +15,7 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     const roomService = new RoomApiService();
     const bookingService = new BookingApiService();
     const [rooms, setRooms] = useState<Room[]>();
+    const requiredRules = [Rules.Required];
 
     useEffect(() => {
         roomService.list().then(response => setRooms(response))
@@ -22,22 +24,27 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     const onSubmit = (values) => {
 
         const payload = bookingService.getBookingPayload(user, values)
+        bookingService.list().then(response => {
+            console.log(response)
+            if (!BookingHelper.canBooking(values.startAt, values.endAt, values.room, response)) {
+                openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
+                return
+            }
+            if (!BookingHelper.bookable(values.startAt)) {
+                openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
+                return
+            }
+            bookingService.create(payload).then(response => {
+                openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée", "Votre demande a bien été prise en compte")
+                loadData()
+                setDate(null)
+            }).catch(response => {
+                openNotificationWithIcon(notificationType.error, "Demande non prise en compte", "Une erreur est survenue")
+            })
 
-        if (!BookingHelper.canBooking(values.startAt, values.endAt, values.room, bookings)) {
-            openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
-            return
-        }
-        if (!BookingHelper.bookable(values.startAt)) {
-            openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Vous ne pouvez pas réserver moins de 15 jours avant la date prévue")
-            return
-        }
-        bookingService.create(payload).then(response => {
-            openNotificationWithIcon(notificationType.success, "Demande de réservation effectuée", "Votre demande a bien été prise en compte")
-            loadData()
-            setDate(null)
-        }).catch(response => {
-            openNotificationWithIcon(notificationType.error, "Demande non prise en compte", "Une erreur est survenue")
         })
+
+       
     }
     const disabledDateTime = () => {
         return {
@@ -54,10 +61,10 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
                             <p> Nom </p>
                             <p className="info-form">{user.firstName} {user.lastName} </p>
                         </div>
-                        <Form.Item name="startAt" label="Date de début" initialValue={moment(date)}>
+                        <Form.Item rules={requiredRules} name="startAt" label="Date de début" initialValue={moment(date)}>
                             <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
                         </Form.Item>
-                        <Form.Item name="endAt" label="Date de fin" initialValue={moment(date)}>
+                        <Form.Item  rules={requiredRules} name="endAt" label="Date de fin" initialValue={moment(date)}>
                             <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
                         </Form.Item>
                     </Col>
@@ -66,7 +73,7 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
                             <p> Sport</p>
                             <p className="info-form"> {user.sport.name} </p>
                         </div>
-                        <Form.Item name="room" label="Salle">
+                        <Form.Item rules={requiredRules}  name="room" label="Salle">
                             {rooms && <Select>
                                 {rooms.map(room => <Select.Option className="sport-options" value={room.id}>{room.name} </Select.Option>)}
                             </Select>}
