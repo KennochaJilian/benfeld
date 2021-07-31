@@ -1,0 +1,110 @@
+@media screen and(max-width : 769px) {
+    .left-nav-layout-container {
+        // display : none
+    }
+
+    .display-menu {
+        display: block;
+        z-index: 9;
+        position: fixed;
+        top: 0;
+    }
+
+    .page-content {
+        position: relative;
+        left: 0;
+        width: 100%;
+
+        .ant-page-header-heading-title {
+            font-size: 20px
+        }
+    }
+
+    .burger-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 10;
+    }
+
+    #container {
+
+        #user-manager-container,
+        #bookings-manager-container, 
+        #profil-container {
+            width: 100%;
+            padding: 10px;
+
+            .input-search-user {
+                width: 110px;
+            }
+
+            .header-responsive-line {
+                color: white;
+                background-color: #f1a512;
+                display: flex;
+                padding: 5px;
+                justify-content: space-around;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                margin-bottom: 10px;
+            }
+
+
+            .content-responsive-line {
+                color: white;
+
+                div {
+                    display: flex;
+                    justify-content: space-evenly;
+                    margin-bottom: 10px;
+                    background-color: #484848;
+                    border-radius: 10px;
+                    padding: 5px;
+
+                    span {
+                        width: 70px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+
+        #profil-container {
+            width: 100%;
+            padding: 10px;
+
+            .user-information-container {
+                flex-direction: column;
+
+                .btn-profil-container {
+                    margin-top: 20px;
+                    display: flex;
+                    flex-direction: column;
+
+                    .btn-profil {
+                        margin-left: 0;
+                        margin-bottom: 10px;
+                    }
+                }
+
+            }
+            .responsive-line-user div span{
+                width: auto;
+            }
+        }
+        #manage-app-container{
+            flex-direction: column;
+            padding: 10px;
+            .container-manage-app{
+                margin-bottom: 40px;
+                min-width: 100%;
+            }
+        }
+
+    }
+
+
+}

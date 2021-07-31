@@ -1,71 +1,37 @@
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
-import { Button, Input, Modal, Popconfirm, Select, Table } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Input, Modal, Select } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ResponsiveContext } from '../AppContainer';
+import { DisplayUsersTable } from '../components/DisplayUsersTable';
 import { UserForm } from '../components/forms/UserForm';
-import { notificationType, openNotificationWithIcon } from '../components/generics/Notification';
 import { PageContent } from '../components/generics/PageContent';
+import { ResponsivesLinesUser } from '../components/ResponsivesLinesUser';
 import "../css/userManager.less";
 import { UserApiService } from '../services/UserApiService';
 
 export const UserManager = () => {
     const userApiService = new UserApiService();
-    const [data, setData] = useState([]);
+    const [users, setUsers] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { Option } = Select;
     const history = useHistory();
+    const responsiveContext = useContext(ResponsiveContext);
 
     const loadUsers = () => {
-        userApiService.getNoDeletedUser().then(r => setData(r))
-    }
-
-    const deleteUser = (user) => {
-        userApiService.update(user.id, { isDeleted: true }).then(r => {
-            openNotificationWithIcon(notificationType.success, "Utilisateur supprimé", "L'utilisateur a bien été supprimé")
-            loadUsers()
-        })
+        userApiService.getNoDeletedUser().then(r => setUsers(r))
     }
 
     useEffect(() => {
         loadUsers()
     }, []);
 
-    const renderActions = (user) => (
-        <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer un utilisateur ?"
-            onConfirm={() => deleteUser(user)}
-            okText="Oui"
-            cancelText="Non"
-        >
-            <Button className="delete-user" type="link" danger={true}><CloseOutlined /></Button>
-        </Popconfirm>
-    );
-
-    const handleChangeRoles = (e, roles, id) => {
-        if (e === "ROLE_ADMIN" && !roles.includes(e)) {
-            roles.push(e);
-        } else if (e === "ROLE_USER" && roles.includes("ROLE_ADMIN")) {
-            roles.splice(roles.indexOf('ROLE_ADMIN'), 1);
-        } else {
-            return;
-        }
-        userApiService.update(id, { roles: roles });
-    }
-
-    const selectAdmin = (roles, id) => {
-        const actualRoles = roles.includes("ROLE_ADMIN") ? "Administrateur" : "Utilisateur";
-        return (
-            <Select className="select-user-role" suffixIcon={<DownOutlined />} defaultValue={actualRoles} onChange={(e) => handleChangeRoles(e, roles, id)}>
-                <Option className="sport-options" value="ROLE_ADMIN">Administrateur</Option>
-                <Option className="sport-options" value="ROLE_USER">Utilisateur</Option>
-            </Select>
-        );
-    }
 
     const onSearchUser = (value) => {
-        userApiService.searchByName(value).then(response => setData(response))
+        userApiService.searchByName(value).then(response => setUsers(response))
     }
-    useEffect(() => { }, [data])
+    useEffect(() => { }, [users])
+
+    const nameColumns = ['email', 'firstName', 'lastName', 'phoneNumber']
 
     return (
         <PageContent title="Gestion des utilisateurs" returnBouton={true} history={history}>
@@ -74,14 +40,10 @@ export const UserManager = () => {
                     <Input className="input-search-user" placeholder="Rechercher..." onChange={e => onSearchUser(e.target.value)} />
                     <Button className="add-user-btn" type="primary" onClick={(() => setIsModalOpen(true))}>Créer un compte</Button>
                 </div>
-                <Table className="user-table" pagination={{ pageSize: 5 }} dataSource={data} >
-                    <Table.Column title="Email" dataIndex={["email"]} key="email" />
-                    <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
-                    <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />
-                    <Table.Column title="Téléphone" dataIndex={["phoneNumber"]} key="phoneNumber" />
-                    <Table.Column title="Role" key="role" render={(user) => selectAdmin(user.roles, user.id)} />
-                    <Table.Column title="Actions" key="lastName" render={(user) => renderActions(user)} />
-                </Table>
+                {responsiveContext.responsiveData.isPhone ? <ResponsivesLinesUser users={users} loadUsers={loadUsers}/> :
+                    <DisplayUsersTable users={users} loadUsers={loadUsers} />
+                }
+
                 <Modal
                     title="Enregistrer un utilisateur"
                     onCancel={() => setIsModalOpen(false)}

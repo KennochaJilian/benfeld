@@ -37,7 +37,7 @@ export const Profil = () => {
                                 <SelectUserSport />
                             </div>
                         </div>
-                        <div>
+                        <div className="btn-profil-container">
                             <Button className="btn-profil" type="primary" onClick={() => onClickButton("information")}> Modifier mes informations personnelles</Button>
                             <Button className="btn-profil" type="primary" onClick={() => onClickButton("password")}> Modifier mon mot de passe</Button>
                         </div>
