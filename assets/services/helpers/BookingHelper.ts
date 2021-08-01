@@ -17,25 +17,43 @@ export class BookingHelper {
                 return "Validée"
         }
     }
-    public static canManage(status){
-        return status !== BookingStatusEnum.refused && status !== BookingStatusEnum.validated 
+    public static canManage(status) {
+        return status !== BookingStatusEnum.refused && status !== BookingStatusEnum.validated
     }
 
-    public static bookable(dateAsk){
+    public static bookable(dateAsk) {
         let date = new Date(dateAsk)
 
         return +date > +DateHelper.addDays(new Date(), 14)
     }
 
-    public static checkIfDatesOverlap(a,b){
-        b.startAt = new Date(b.startAt); 
+    public static checkIfDatesOverlap(a, b) {
+        
+        a.startAt = new Date(a.startAt)
+        a.endAt = new Date(a.endAt)
+
+        b.startAt = new Date(b.startAt);
         b.endAt = new Date(b.endAt)
-        return !(b.startAt <= a.startAt && a.startAt <= b.endAt) &&
-               !(b.startAt <= a.endAt && a.endAt <= b.endAt) 
+
+        if (a.startAt <= b.startAt && b.startAt <= a.endAt) return true; // b starts in a
+        if (a.startAt <= b.endAt   && b.endAt   <= a.endAt) return true; // b ends in a
+        if (b.startAt <  a.startAt && a.endAt   <  b.endAt) return true; // a in b
+        return false;
     }
 
-    public static canBooking(startAt, endAt, askedRoomId, bookings:Booking[]){
-        return !bookings.every(booking => !this.checkIfDatesOverlap({startAt,endAt}, booking) && booking.room.id == askedRoomId && booking.status != BookingStatusEnum.pending)       
+    public static canBooking(startAt, endAt, askedRoomId, bookings: Booking[]) {
+        let canBooking = true;        
+        bookings.forEach(booking => {
+            console.log(this.checkIfDatesOverlap(booking, { startAt, endAt } ))
+            if(this.checkIfDatesOverlap(booking, { startAt, endAt } )){
+                if(booking.room.id == askedRoomId){
+                    if(booking.status == BookingStatusEnum.validated){
+                        return canBooking = false; 
+                    }
+                }
+            }            
+        }) 
+        return canBooking
     }
 
 }

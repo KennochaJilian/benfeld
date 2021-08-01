@@ -5,17 +5,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { AppContext, ResponsiveContext } from "../AppContainer";
 import "../css/responsive.less";
+import { UserApiService } from "../services/UserApiService";
 
 export const LeftNavLayout = () => {
     const { user } = useContext(AppContext);
     const history = useHistory();
     const [displayMenu, setDisplayMenu] = useState<boolean>(false);
     const responsiveContext = useContext(ResponsiveContext);
+    const userService = new UserApiService(); 
 
-    const onLogout = () => {
-        localStorage.clear()
-        location.reload()
-    }
     useEffect(() => { }, [displayMenu])
 
     return (
@@ -42,7 +40,7 @@ export const LeftNavLayout = () => {
                         <Menu.Item key={"manage-booking"}> Gérer réservations <Link href={"/gestion-reservations"} /> </Menu.Item>
                         <Menu.Item key={"manage-app"}> Gérer l'app <Link href={"/gerer-app"} /> </Menu.Item>
                         <Menu.Item key={"profil"}> Mon profil <Link href={"/profil"} /> </Menu.Item>
-                        <Menu.Item onClick={() => onLogout()} key='/logout'> <span><LogoutOutlined className="mr-1" rotate={270} style={{ color: "red" }} />Déconnexion</span> </Menu.Item>
+                        <Menu.Item onClick={() => userService.onLogout()} key='/logout'> <span><LogoutOutlined className="mr-1" rotate={270} style={{ color: "red" }} />Déconnexion</span> </Menu.Item>
                         <Menu.Divider />
                     </Menu>
                 </Layout.Sider>

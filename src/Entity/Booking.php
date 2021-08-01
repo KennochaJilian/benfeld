@@ -5,9 +5,16 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\BookingRepository;
 
 /**
- * @ApiResource()
+ * 
+ *  
+ * @ApiResource(collectionOperations={
+ *      "get"={
+ *          "normalization_context"={"groups"={"bookings:read"}}
+ *      }, "post","patch",
+ *  })
  * @ORM\Entity(repositoryClass=BookingRepository::class)
  * 
  */

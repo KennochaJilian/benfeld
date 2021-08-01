@@ -67,7 +67,7 @@ export const AppContainer = () => {
                                     <Route path="/profil"> <Profil /> </Route>
                                 </React.Fragment>
                                 :
-                                <Route path="/"> <Login /> </Route>
+                                <Route exact={true} path="/"> <Login /> </Route>
                             }
                         </Switch>
                     </BrowserRouter>

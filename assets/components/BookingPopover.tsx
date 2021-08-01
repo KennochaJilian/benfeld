@@ -21,7 +21,7 @@ export const BookingPopover = ({event, booking, loadData}) => {
       
     return(
         <Popover content={content} title={event.title}>
-        <p> {event.title} </p>
+        <p className="mini-font"> {event.title} </p>
     </Popover>
     )
 }

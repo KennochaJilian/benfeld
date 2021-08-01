@@ -17,7 +17,7 @@ export class BookingApiService extends GenericApiService {
     }
 
     getBookingPayload(user, value){
-        const format = "YYYY-MM-DD hh:mm"
+        const format = "YYYY-MM-DD HH:mm"
 
         return({
             startAt: moment(value.startAt).tz("Europe/Paris").format(format), 

@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Button, Tooltip } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -18,7 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { UserHelper } from '../services/helpers/UserHelper';
-import frLocale from '@fullcalendar/core/locales/fr'
+import { UserApiService } from '../services/UserApiService';
 
 export const Dashboard = () => {
     const { user } = useContext(AppContext);
@@ -27,6 +27,7 @@ export const Dashboard = () => {
     const [date, setDate] = useState(null);
     const [dates, setDates] = useState(null);
     const bookingService = new BookingApiService()
+    const userService = new UserApiService(); 
     const history = useHistory();
 
     const loadData = () => {
@@ -58,10 +59,11 @@ export const Dashboard = () => {
     return (
         <PageContent title="Agenda de Benfeld Sport">
             {!UserHelper.isAdmin(user) &&
-                <React.Fragment>
-                    <p> Bonjour {user.firstName} </p>
-                    <Button onClick={() => history.push("/profil")}> Mon profil </Button>
-                </React.Fragment>
+                <div className="header-profil">
+                    <p> Bonjour <span className="profil-name"> {user.firstName} </span> </p>
+                    <Button type="primary" onClick={() => history.push("/profil")}> Mon profil </Button>
+                    <Button className="logout-btn" type="primary" onClick={() => userService.onLogout() }> <span><LogoutOutlined className="mr-1" rotate={270} style={{ color: "red" }} />Déconnexion</span> </Button>
+                </div>
             }
             <div>
                     <div className="calendar-container">
@@ -73,7 +75,6 @@ export const Dashboard = () => {
                         <FullCalendar
                             plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
                             initialView="dayGridMonth"
-                            // locales={[frLocale]}
                             locale="fr"
                             events={events}
                             datesSet={(dates) => setDates(dates)}

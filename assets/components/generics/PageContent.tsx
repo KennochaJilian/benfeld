@@ -16,7 +16,7 @@ export const PageContent = ({ title, children, returnBouton = false, history = n
                     </div>
                 }
 
-      <div className='page-content'>
+      <div className={`page-content ${!UserHelper.isAdmin(user)&& 'page-content-no-admin'}`}>
       <PageHeader title={title}  />
         {children}
       </div>

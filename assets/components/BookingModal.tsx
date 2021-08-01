@@ -18,6 +18,7 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
     const requiredRules = [Rules.Required];
 
     useEffect(() => {
+                
         roomService.list().then(response => setRooms(response))
     }, [])
 
@@ -25,7 +26,7 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
 
         const payload = bookingService.getBookingPayload(user, values)
         bookingService.list().then(response => {
-            console.log(response)
+            
             if (!BookingHelper.canBooking(values.startAt, values.endAt, values.room, response)) {
                 openNotificationWithIcon(notificationType.warning, "Réservation impossible", "Votre réservation chevauche une réservation validée existante")
                 return
@@ -41,10 +42,9 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
             }).catch(response => {
                 openNotificationWithIcon(notificationType.error, "Demande non prise en compte", "Une erreur est survenue")
             })
-
         })
 
-       
+
     }
     const disabledDateTime = () => {
         return {
@@ -57,23 +57,25 @@ export const BookingModal = ({ date, setDate, bookings, loadData }) => {
             <Form layout="vertical" onFinish={onSubmit}>
                 <Row>
                     <Col md={12}>
-                        <div className="info-form-container"> 
+                        <div className="info-form-container">
                             <p> Nom </p>
                             <p className="info-form">{user.firstName} {user.lastName} </p>
                         </div>
                         <Form.Item rules={requiredRules} name="startAt" label="Date de début" initialValue={moment(date)}>
                             <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
                         </Form.Item>
-                        <Form.Item  rules={requiredRules} name="endAt" label="Date de fin" initialValue={moment(date)}>
+                        <Form.Item rules={requiredRules} name="endAt" label="Date de fin" initialValue={moment(date)}>
                             <DatePicker disabledTime={disabledDateTime} minuteStep={15} showTime format={'DD/MM/YYYY, HH:mm'} />
                         </Form.Item>
                     </Col>
                     <Col md={12}>
-                        <div className="info-form-container"> 
-                            <p> Sport</p>
-                            <p className="info-form"> {user.sport.name} </p>
-                        </div>
-                        <Form.Item rules={requiredRules}  name="room" label="Salle">
+                        {user.sport &&
+                            <div className="info-form-container">
+                                <p> Sport</p>
+                                <p className="info-form"> {user.sport.name} </p>
+                            </div>                        
+                        }
+                        <Form.Item rules={requiredRules} name="room" label="Salle">
                             {rooms && <Select>
                                 {rooms.map(room => <Select.Option className="sport-options" value={room.id}>{room.name} </Select.Option>)}
                             </Select>}
