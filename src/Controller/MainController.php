@@ -8,6 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
+        /**
+     * @Route("/mailer")
+     */
+    public function sendNotification()
+    {
+        dd("toto");
+    }
+
     /**
      * @Route("/", name="main")
      */
@@ -23,4 +31,6 @@ class MainController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
+
+
 }
