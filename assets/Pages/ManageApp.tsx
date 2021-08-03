@@ -47,7 +47,11 @@ export const ManageApp = () => {
     const generateList = (dataSource, typeData) => {
         return <ul>
             {dataSource.map(data =>
-                <li><span className="data-name"> {data.name} </span> <DeleteButton title="Supprimer" onConfirm={() => deleteData(data.id, typeData)} /> </li>
+                <li><span className="data-name"> {data.name} </span>
+                    {typeData == "sport" &&
+                        <DeleteButton title="Supprimer" onConfirm={() => deleteData(data.id, typeData)} />
+                    }
+                </li>
             )}
         </ul>
     }
