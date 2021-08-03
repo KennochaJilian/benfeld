@@ -54,14 +54,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
 
     /*
-    public function findOneBySomeField($value): ?User
+     * @return User[] Returns an array of User objects
+    */
+ 
+    public function findAdminUsers()
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        ->orderBy('u.roles', 'ASC')
+        ->where('u.roles LIKE :roles')
+        ->andwhere('u.isDeleted = :isDeleted')
+        ->setParameter('roles', '%ROLE_ADMIN%')
+        ->setParameter('isDeleted', false)
+        ->getQuery()
+        ->getResult(); 
+        
     }
-    */
+
 }

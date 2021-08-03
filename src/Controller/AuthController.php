@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\BookingRepository;
+use App\Repository\UserRepository;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,5 +33,24 @@ class AuthController extends AbstractController
         return $this->json([
             'user' => $user->getEmail()
         ]);
+    }
+     /**
+     * @Route("send_mail", name="register")
+     * 
+     */
+    public function send_mail(MailService $service, BookingRepository $repo, UserRepository $userRepo): Response
+    {
+
+        $booking = $repo->findOneBy(['id' => 59]);
+        $adminUsers = $userRepo->findAdminUsers();
+        $adminMails = []; 
+
+        foreach ($adminUsers as $user) {
+            $adminMails[]=$user->getEmail();
+        }
+
+        $service->bookingCreated($booking, $adminMails);
+
+        return $this->json(["response" => "ok"]);
     }
 }

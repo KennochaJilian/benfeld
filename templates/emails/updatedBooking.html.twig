@@ -1,0 +1,30 @@
+<h3>Modification du statut de votre réservation</h3>
+
+<p> Bonjour, votre demande de réservation a été 
+{%if booking.status == "validated"%} 
+validée
+{%endif%}
+{%if booking.status == "cancelled"%} 
+anulée
+{%endif%}
+{%if booking.status == "refused"%} 
+refusée
+{%endif%}
+</p>
+
+{%if booking.status == "refused" and booking.cancellingReason %} 
+
+<p> Raison d'annulation : {{booking.cancellingReason}} </p>
+{%endif%}
+
+<p> Réservation concernée :  </p>
+
+<p> Salle : {{booking.room.name}} </p>
+<p> Demandeur : {{booking.user.firstName}} {{booking.user.lastName}} </p>
+<p> Date de début : {{booking.startAt | date("d/m/Y HH:mm", "Europe/Paris")}} </p>
+<p> Date de fin : {{booking.endAt | date("d/m/Y HH:mm", "Europe/Paris")}} </p>
+{% if booking.comment %}
+<p> Commentaire : {{booking.endAt}} </p>
+{%endif%}
+
+<p> A bientôt ! </p>
