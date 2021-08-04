@@ -21,8 +21,8 @@ refusée
 
 <p> Salle : {{booking.room.name}} </p>
 <p> Demandeur : {{booking.user.firstName}} {{booking.user.lastName}} </p>
-<p> Date de début : {{booking.startAt | date("d/m/Y H:m", "Europe/Paris")}} </p>
-<p> Date de fin : {{booking.endAt | date("d/m/Y H:m", "Europe/Paris")}} </p>
+<p> Date de début : {{booking.startAt | date("d/m/Y H:i", "Europe/Paris")}} </p>
+<p> Date de fin : {{booking.endAt | date("d/m/Y H:i", "Europe/Paris")}} </p>
 {% if booking.comment %}
 <p> Commentaire : {{booking.endAt}} </p>
 {%endif%}
