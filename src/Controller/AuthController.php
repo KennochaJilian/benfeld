@@ -34,24 +34,4 @@ class AuthController extends AbstractController
             'user' => $user->getEmail()
         ]);
     }
-
-    /**
-     * @Route("send_mail", name="send_mail")
-     * 
-     */
-    public function send_mail(MailService $service, BookingRepository $repo, UserRepository $userRepo): Response
-    {
-
-        $booking = $repo->findOneBy(['id' => 59]);
-        $adminUsers = $userRepo->findAdminUsers();
-        $adminMails = []; 
-
-        foreach ($adminUsers as $user) {
-            $adminMails[]=$user->getEmail();
-        }
-
-        $service->bookingCreated($booking, $adminMails);
-
-        return $this->json(["response" => "ok"]);
-    }
 }
