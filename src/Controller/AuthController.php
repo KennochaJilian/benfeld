@@ -34,8 +34,9 @@ class AuthController extends AbstractController
             'user' => $user->getEmail()
         ]);
     }
-     /**
-     * @Route("send_mail", name="register")
+
+    /**
+     * @Route("send_mail", name="send_mail")
      * 
      */
     public function send_mail(MailService $service, BookingRepository $repo, UserRepository $userRepo): Response

@@ -53,6 +53,12 @@ DirectoryIndex index.php
     # Rewrite all other queries to the front controller.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ %{ENV:BASE}/index.php [L]
+
+    # Redirects to https 
+    RewriteCond %{SERVER_PORT} !=443
+    RewriteRule ^(.*)$ https://benfeld.formaunivstraslpdwca21.fr/$1 [R=301,L]
+    # Replace 'exemple.com' with the current website's URL
+    # RewriteRule ^(.*)$ https://exemple.com/$1 [R=301,L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
