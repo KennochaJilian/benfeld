@@ -8,10 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=RoomRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"isDeleted"})
  */
 class Room
 {
@@ -33,6 +36,11 @@ class Room
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="room")
      */
     private $bookings;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
 
     public function __construct()
     {
@@ -82,6 +90,18 @@ class Room
                 $booking->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

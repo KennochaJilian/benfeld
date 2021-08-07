@@ -9,7 +9,7 @@ export const DisplayUsersTable = ({ users, loadUsers }) => {
 
 
     return (
-        <Table className="user-table" pagination={{ pageSize: 5 }} dataSource={users} >
+        <Table className="user-table"  dataSource={users} >
             <Table.Column title="Email" dataIndex={["email"]} key="email" />
             <Table.Column title="Prénom" dataIndex={["firstName"]} key="firstName" />
             <Table.Column title="Nom" dataIndex={["lastName"]} key="lastName" />

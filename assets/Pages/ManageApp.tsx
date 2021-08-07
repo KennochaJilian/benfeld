@@ -17,8 +17,8 @@ export const ManageApp = () => {
     const roomApiService = new RoomApiService();
 
     const loadData = () => {
-        sportApiService.list().then(response => setSports(response))
-        roomApiService.list().then(response => setRooms(response))
+        sportApiService.getNoDeletedSport().then(response => setSports(response))
+        roomApiService.getNoDeletedRooms().then(response => setRooms(response))
     }
 
     useEffect(() => {
@@ -32,13 +32,14 @@ export const ManageApp = () => {
     }
 
     const deleteData = (dataId, typeData) => {
+        let payload = {isDeleted : true}
         if (typeData == "sport") {
-            sportApiService.delete(dataId).then(response => {
+            sportApiService.update(dataId, payload).then(response => {
                 onSuccessDeleted('sport')
             })
             return
         }
-        roomApiService.delete(dataId).then(response => {
+        roomApiService.update(dataId, payload).then(response => {
             onSuccessDeleted('salle')
         })
 
@@ -48,9 +49,7 @@ export const ManageApp = () => {
         return <ul>
             {dataSource.map(data =>
                 <li><span className="data-name"> {data.name} </span>
-                    {typeData == "sport" &&
                         <DeleteButton title="Supprimer" onConfirm={() => deleteData(data.id, typeData)} />
-                    }
                 </li>
             )}
         </ul>

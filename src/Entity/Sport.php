@@ -6,10 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SportRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=SportRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"isDeleted"})
  */
 class Sport
 {
@@ -27,6 +30,11 @@ class Sport
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,6 +48,18 @@ class Sport
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
