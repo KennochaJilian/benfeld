@@ -31,6 +31,7 @@ export const ManageAppModals = ({dataToManage, setDataToManage, loadData}) => {
                 e.preventDefault()
             }
         })
+        values.isDeleted = false; 
 
         if (dataToManage == "sport"){
             sportApiService.create(values).then(response => {
